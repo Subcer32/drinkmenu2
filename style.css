@@ -137,6 +137,7 @@ body::-webkit-scrollbar-thumb:hover { background:rgba(97, 97, 97, 1);border-radi
     padding: 20px;
     border-radius: 10px;
 }
+
 .write_box input{
     width: 100px;
     height: 23px;
@@ -184,6 +185,17 @@ body::-webkit-scrollbar-thumb:hover { background:rgba(97, 97, 97, 1);border-radi
     padding: 20px;
     border-radius: 10px;
     margin-bottom: 10px;
+}
+@media screen and (max-width: 480px) {
+    .item_box{
+        display: none;
+    }
+    .write_box{
+        display: block;
+    }
+    .write_box div{
+        display: inline-block;
+    }
 }
 .items_box_box{
     width: 100%;
