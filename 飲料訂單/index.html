@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="./images/obsidian.png" type="image/x-icon" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- <script src="https://apis.google.com/js/api:client.js"></script> -->
+    <title>飲料訂單</title>
+</head>
+<style>
+</style>
+<body>
+    <!-- <iframe class="big_iframe" src="" name="iframe_a" width="100%" height="1200px"></iframe> -->
+    <div class="information">
+        <div class="item_box">
+            <div>姓名</div>
+            <div>品項</div>
+            <div>甜度</div>
+            <div>冰度</div>
+            <div>加料</div>
+            <div>價錢</div>
+            <div>備註</div>
+        </div>
+
+        <div id="write_box_box" class="write_box">
+            <div>
+                <div><input type="text" id="name" name="name" placeholder="姓名"></div>
+            </div>
+            <div>
+                <div><input type="text" id="items" name="items" placeholder="品項"></div>
+            </div>
+            <div>
+                <div class="sugar-choose">
+                    <select id="sugar" name="sugar">
+                        <option value="">請選擇甜度</option>
+                        <option value="正常">正常</option>
+                        <option value="少糖">少糖</option>
+                        <option value="半糖">半糖</option>
+                        <option value="微糖">微糖</option>
+                        <option value="無糖">無糖</option>
+                    </select>
+                </div>
+            </div>
+            <div class="ice-choose">
+                <select id="ice" name="ice">
+                    <option value="">請選擇冰度</option>
+                    <option value="正常">正常</option>
+                    <option value="少冰">少冰</option>
+                    <option value="微冰">微冰</option>
+                    <option value="去冰">去冰</option>
+                    <option value="完全去冰">完全去冰</option>
+                </select>
+            </div>
+            <div>
+                <div><input type="text" id="feed" name="feed" placeholder="珍珠,寒天..."></div>
+            </div>
+            <div>
+                <div><input type="text" id="money" name="money" placeholder="價錢"></div>
+            </div>
+            <div>
+                <div><input type="text" id="remark" name="remark" placeholder="備註"></div>
+            </div>
+            <div class="write_box_add" title="新增"></div>
+        </div>
+        <div id="showtext" class="int_box int_box_open">
+        </div>
+        <div id="showtext_all_count" class="int_box int_box_open">
+            <div class="count_all_items">
+            </div>
+            <div class="count_money">
+                <div class="count_items" title="杯數">
+                    <div><img src="./images/drink2.png" width="40px" height="40px"></div>
+                    <div class="itemsGO"></div>
+                </div>
+                <div class="count_money_all" title="總價錢">
+                    <div><img src="./images/dollars.png" width="40px" height="40px"></div>
+                    <div class="moneyGO"></div>
+                </div>
+            </div>
+        </div>
+    </div>    
+</body>
+    <script src="new2.js"></script>
+</html>
