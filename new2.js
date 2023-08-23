@@ -100,7 +100,7 @@ $(function(){
                 databaseURL: "https://drink-cool-default-rtdb.firebaseio.com/"
         };
         firebase.initializeApp(config);
-        var database = firebase.database().ref();
+        var database = firebase.database();
         var databaseItems = firebase.database().ref('/items');
 
         //載入資料庫時顯示所有內容，並當資料庫有變動立即刷新
@@ -138,6 +138,13 @@ $(function(){
                                 first.addClass('check_active');
                         }
                         console.log(catch_id);
+                });
+
+                $('.delete_all').click(function(){
+                        if(confirm('請問確定要全部刪除嗎?')){
+                                database.ref('/items/').remove();
+                                window.location.reload();
+                        }
                 });
         });
 
