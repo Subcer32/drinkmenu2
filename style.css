@@ -175,6 +175,7 @@ body::-webkit-scrollbar-thumb:hover { background:rgba(97, 97, 97, 1);border-radi
 .item_box{
     width: 80%;
     margin: 9px auto 0px;
+    position: relative;
     display: flex;
     justify-content: space-around;
     align-content: center;
@@ -350,4 +351,15 @@ body::-webkit-scrollbar-thumb:hover { background:rgba(97, 97, 97, 1);border-radi
     left: 0;
     background-image: url(./images/check.png);
     background-size: 100% 100%;
+}
+.delete_all{
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    top: 50%;
+    margin-top: -12px;
+    right: -34px;
+    background-image: url(./images/delete3.png);
+    background-size: 100% 100%;
+    cursor: pointer;
 }
