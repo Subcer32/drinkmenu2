@@ -398,9 +398,11 @@ body::-webkit-scrollbar-thumb:hover { background:rgba(97, 97, 97, 1);border-radi
     background-size: 100% 100%;
     cursor: pointer;
 }
-.name,.items,.ice-choose,.sugar-choose,.feed,.money,.remark{
-    margin-bottom: 15px;
-}
-.ice-choose,.sugar-choose{
-    width: 110px;
+@media screen and (max-width: 480px) {
+    .name,.items,.ice-choose,.sugar-choose,.feed,.money,.remark{
+        margin-bottom: 15px;
+    }
+    .ice-choose,.sugar-choose{
+        width: 110px;
+    }
 }
