@@ -192,9 +192,15 @@ body::-webkit-scrollbar-thumb:hover { background:rgba(97, 97, 97, 1);border-radi
     }
     .write_box{
         display: block;
+        text-align: center;
+        margin-top: 20px;
     }
     .write_box div{
         display: inline-block;
+        
+    }
+    .write_box_add{
+        right: 0;
     }
 }
 .items_box_box{
@@ -240,6 +246,23 @@ body::-webkit-scrollbar-thumb:hover { background:rgba(97, 97, 97, 1);border-radi
     word-break: break-all;
     width: 30%;
     /* flex: 4; */
+}
+@media screen and (max-width: 480px) {
+    .items_box_box{
+        text-align: center;
+    }
+    .style_name,.style_items{
+        display: block;
+        width: auto;
+    }
+    .style_sugar,.style_ice,.style_feed,.style_money{
+        display: block;
+        width: auto;
+    }
+    .style_remark{
+        display: block;
+        width: auto;
+    }
 }
 #showtext_all_count{
     width: 80%;
@@ -374,4 +397,10 @@ body::-webkit-scrollbar-thumb:hover { background:rgba(97, 97, 97, 1);border-radi
     background-image: url(./images/delete3.png);
     background-size: 100% 100%;
     cursor: pointer;
+}
+.name,.items,.ice-choose,.sugar-choose,.feed,.money,.remark{
+    margin-bottom: 5px;
+}
+.ice-choose,.sugar-choose{
+    width: 110px;
 }
