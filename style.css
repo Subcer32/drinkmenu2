@@ -399,7 +399,7 @@ body::-webkit-scrollbar-thumb:hover { background:rgba(97, 97, 97, 1);border-radi
     cursor: pointer;
 }
 .name,.items,.ice-choose,.sugar-choose,.feed,.money,.remark{
-    margin-bottom: 5px;
+    margin-bottom: 15px;
 }
 .ice-choose,.sugar-choose{
     width: 110px;
