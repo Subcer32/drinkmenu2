@@ -161,7 +161,7 @@ $(function(){
                 // console.log(snapshot.val());
                 for(var i in snapshot.val()){
                         area_count[count_i] = snapshot.val()[i].money;
-                        area_items[count_i] = snapshot.val()[i].items+snapshot.val()[i].sugar+snapshot.val()[i].ice+snapshot.val()[i].feed;
+                        area_items[count_i] = snapshot.val()[i].items+' , '+snapshot.val()[i].sugar+' , '+snapshot.val()[i].ice+' , '+snapshot.val()[i].feed+' , $'+snapshot.val()[i].money;
                         count_i++;
                 }
                 console.log(area_items);
