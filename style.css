@@ -126,32 +126,82 @@ body::-webkit-scrollbar-thumb:hover { background:rgba(97, 97, 97, 1);border-radi
 #showtext::-webkit-scrollbar-thumb:hover { background:rgba(97, 97, 97, 1);border-radius: 10px;}
   
 .write_box{
-    width: 80%;
+    width: 20%;
     position: relative;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-around;
-    align-content: center;
+    margin: 20px auto 0;
+    
     --tw-bg-opacity: 1;
-    background-color: rgb(90 34 90 / var(--tw-bg-opacity));
-    padding: 20px;
+    /* background-color: rgb(90 34 90 / var(--tw-bg-opacity)); */
+    /* background: linear-gradient(to bottom, #FFF8E1 0%, #FFFFFF 100%); */
+
+    /* border-radius: 12px;  */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    color: #fff8dc;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+    font-weight: 600;
+    padding: 1.5rem;
+    margin-bottom: 1rem; /* 卡片之間的距離 */
+    border: 1px solid #FFD700 ; /* 細金色邊框(可視需求) */
     border-radius: 10px;
+    
 }
 
 .write_box input{
-    width: 100px;
+    width: 98.5%;
     height: 23px;
     outline: none;
-    border-radius: 10px;
+    --tw-bg-opacity: 1;
+    background-image: url("images/金色背景.png");
+    background-position: center;
+    background-repeat: repeat-y;
+
+    color: #fff8dc;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+    font-weight: 600;
+    font-size: 16px;
+
+    margin-bottom: 20px;
+    border-radius: 5px;
     text-align: center;
+    border: none;
 }
+
+.write_box input::placeholder{
+    color: #fff8dc;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+    font-weight: 600;
+}
+
 .write_box select{
-    width: 100px;
+    width: 100%;
     height: 30px;
     outline: none;
-    border-radius: 10px;
+    font-size: 16px;
+
+    --tw-bg-opacity: 1;
+    background-image: url("images/金色背景.png");
+    background-position: center;
+    background-repeat: repeat-y;
+
+    color: #fff8dc;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+    font-weight: 600;
+
+    margin-bottom: 20px;
+    border-radius: 5px;
     text-align: center;
+    border: none;
 }
+.write_box select option{
+    color: #981C25;
+    background: linear-gradient(
+        to bottom,
+        #FFF8E1 0%,   /* 淡金 */
+        #FFFFFF 100%  /* 白 */
+    );
+}
+
+
 .write_box_add{
     display: block;
     content: '';
@@ -160,9 +210,10 @@ body::-webkit-scrollbar-thumb:hover { background:rgba(97, 97, 97, 1);border-radi
     background-image: url(./images/istockphoto2.png);
     background-size: 100% 100%;
     position: absolute;
-    top: 50%;
-    margin-top: -17.5px;
-    right: -40px;
+    bottom: 0px;
+    margin-top: -19.5px;
+    right: 50%;
+    margin-right: -17.5px;
     z-index: 10;
     transition: all 0.5s;
     cursor: pointer;
@@ -171,7 +222,10 @@ body::-webkit-scrollbar-thumb:hover { background:rgba(97, 97, 97, 1);border-radi
     transform: scale(1.4)
 }
 .information{
-    padding-top: 1px;
+    padding: 1px 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .item_box{
     width: 80%;
@@ -207,8 +261,18 @@ body::-webkit-scrollbar-thumb:hover { background:rgba(97, 97, 97, 1);border-radi
     width: 100%;
     margin: 10px auto;
     position: relative;
+    color: #EEE;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+    font-weight: 600;
+
+    /* color: #f8f8f8;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8); */
     --tw-bg-opacity: 1;
-    background-color: rgb(90 34 90 / var(--tw-bg-opacity));
+    background-image: url("images/金色背景.png");
+    background-position: top center;
+    background-repeat: repeat-y;
+    background-size: 100% auto;
+
     cursor: pointer;
     transition: all 0.5s;
     border-radius: 10px;
