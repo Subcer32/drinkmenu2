@@ -44,7 +44,7 @@ input, select, textarea, button {
     background-color: #D4AF37 !important;
     color: #000;
 }
-/* button, .add_button, .change_color, .delete_item, .delete_all {
+button, .add_button, .change_color, .delete_item, .delete_all {
     background-color: #D4AF37;
     color: #121212 !important;
     border: none;
@@ -53,7 +53,7 @@ input, select, textarea, button {
     cursor: pointer;
     font-weight: 600;
     transition: background-color 0.3s ease, transform 0.2s ease;
-} */
+}
 
 /* button:hover, .add_button:hover, .change_color:hover, .delete_item:hover, .delete_all:hover {
     background-color: #cfae4e;
