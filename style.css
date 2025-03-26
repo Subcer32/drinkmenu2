@@ -23,11 +23,11 @@ input, select, textarea, button {
     box-sizing: border-box;
 }
 
-input:focus, select:focus, textarea:focus {
+/* input:focus, select:focus, textarea:focus {
     border-color: #D4AF37;
     box-shadow: 0 0 0 2px rgba(212,175,55,0.3);
     outline: none;
-}
+} */
 
 /* 表單區塊 */
 .write_box, .write_box_add, .style_name, .style_ice, .style_sugar, .style_feed, .style_remark, .style_money {
@@ -40,7 +40,11 @@ input:focus, select:focus, textarea:focus {
 }
 
 /* 按鈕 */
-button, .add_button, .change_color, .delete_item, .delete_all {
+.change_color{
+    background-color: #D4AF37 !important;
+    color: #000;
+}
+/* button, .add_button, .change_color, .delete_item, .delete_all {
     background-color: #D4AF37;
     color: #121212 !important;
     border: none;
@@ -49,12 +53,12 @@ button, .add_button, .change_color, .delete_item, .delete_all {
     cursor: pointer;
     font-weight: 600;
     transition: background-color 0.3s ease, transform 0.2s ease;
-}
+} */
 
-button:hover, .add_button:hover, .change_color:hover, .delete_item:hover, .delete_all:hover {
+/* button:hover, .add_button:hover, .change_color:hover, .delete_item:hover, .delete_all:hover {
     background-color: #cfae4e;
     transform: translateY(-1px);
-}
+} */
 
 /* 商品區塊 */
 .items_box_box, .item_box {
@@ -98,9 +102,9 @@ h1, h2, h3 {
 }
 
 /* hover 修正：強制文字顏色維持亮灰白 */
-button:hover, .add_button:hover, .change_color:hover, .delete_item:hover, .delete_all:hover {
+/* button:hover, .add_button:hover, .change_color:hover, .delete_item:hover, .delete_all:hover {
     color: #121212 !important;
-}
+} */
 
 /* 主容器留白不貼齊左右邊 */
 body {
@@ -147,11 +151,11 @@ body {
 }
 
 /* 輸入框點擊強化外框對比 */
-input:focus, select:focus, textarea:focus {
+/* input:focus, select:focus, textarea:focus {
     border-color: #4CAF50;
     box-shadow: 0 0 0 2px rgba(76,175,80, 0.7);
     outline: none;
-}
+} */
 
 /* 統計清單主區塊容器 */
 .countlist {
@@ -266,8 +270,8 @@ input:focus, select:focus, textarea:focus {
 .count_items::before, .count_money_all::before {
     content: "";
     position: absolute;
-    right: 16px;
-    bottom: 10px;
+    right: 18px;
+    bottom: 30px;
     width: 40px;
     height: 40px;
     background: radial-gradient(circle, rgba(255,215,0,0.3) 0%, transparent 70%);
@@ -295,7 +299,7 @@ input:focus, select:focus, textarea:focus {
   content: "";
   position: absolute;
   right: 18px;
-  bottom: 10px;
+  bottom: 30px;
   width: 36px;
   height: 36px;
   background: radial-gradient(circle, rgba(255,215,0,0.5) 0%, transparent 70%);
