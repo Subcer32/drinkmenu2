@@ -1,25 +1,84 @@
 
 <!DOCTYPE html>
+
 <html lang="zh-tw">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="icon" href="./images/drink2.png" type="image/x-icon" >
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <!-- <script src="https://apis.google.com/js/api:client.js"></script> -->
-    <title>飲料訂單</title>
+<link href="styles.css" rel="stylesheet"/>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<link href="./images/drink2.png" rel="icon" type="image/x-icon"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://www.gstatic.com/firebasejs/6.2.0/firebase.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- <script src="https://apis.google.com/js/api:client.js"></script> -->
+<title>飲料訂單</title>
+<style>
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.form-title-animate {
+  font-size: 20px;
+  color: #D4AF37;
+  margin-bottom: 12px;
+  font-weight: bold;
+  animation: glowTitle 2s ease-in-out infinite alternate;
+  text-align: center;
+}
+@keyframes glowTitle {
+  0% { text-shadow: 0 0 6px #d4af37; }
+  100% { text-shadow: 0 0 14px #d4af37; }
+}
+.write_box_add {
+  display: block;
+  margin: 20px auto 0 auto;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #d4af37;
+  color: black;
+  font-size: 24px;
+  line-height: 60px;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 8px #d4af37;
+  transition: all 0.3s ease;
+}
+.write_box_add:hover {
+  box-shadow: 0 0 14px #d4af37, 0 0 20px #d4af37;
+  transform: scale(1.05);
+}
+
+
+input[type="text"],
+select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #555;
+  background-color: #111;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+input[type="text"]:focus,
+select:focus {
+  outline: none;
+  border-color: #d4af37;
+  box-shadow: 0 0 8px #d4af37;
+}
+</style>
 </head>
 <style>
 </style>
 <body>
-    <!-- <iframe class="big_iframe" src="" name="iframe_a" width="100%" height="1200px"></iframe> -->
-    <div class="information">
-        <!-- <div class="item_box">
+<!-- <iframe class="big_iframe" src="" name="iframe_a" width="100%" height="1200px"></iframe> -->
+<div class="information">
+<!-- <div class="item_box">
             <div>姓名</div>
             <div>品項</div>
             <div>甜度</div>
@@ -29,69 +88,94 @@
             <div>備註</div>
             <div class="delete_all" title="刪除全部品項"></div>
         </div> -->
+<div class="write_box" id="write_box_box">
+<div class="form-title-animate">🥤 點餐時間到！來杯好茶吧！</div>
+<div class="form-grid"><div class="name">
+<input id="name" name="name" placeholder="姓名" required="required" type="text"/>
+</div><div class="items">
+<input id="items" name="items" placeholder="品項" required="required" type="text"/>
+</div><div>
+<div class="sugar-choose">
+<div class="custom-select" data-target="sugar">
+<div class="custom-select-trigger">請選擇甜度</div>
+<div class="custom-options">
+<div class="custom-option" data-value="">請選擇甜度</div>
+<div class="custom-option" data-value="固定">固定</div>
+<div class="custom-option" data-value="正常">正常</div>
+<div class="custom-option" data-value="少糖">少糖(七分)</div>
+<div class="custom-option" data-value="半糖">半糖(五分)</div>
+<div class="custom-option" data-value="微糖">微糖(三分)</div>
+<div class="custom-option" data-value="一分">一分</div>
+<div class="custom-option" data-value="無糖">無糖</div>
+</div>
+</div>
+<input id="sugar" name="sugar" type="hidden"/>
+</div>
+</div><div class="ice-choose">
+<div class="custom-select" data-target="ice">
+<div class="custom-select-trigger">請選擇冰度</div>
+<div class="custom-options">
+<div class="custom-option" data-value="">請選擇冰度</div>
+<div class="custom-option" data-value="正常">正常</div>
+<div class="custom-option" data-value="少冰">少冰</div>
+<div class="custom-option" data-value="微冰">微冰</div>
+<div class="custom-option" data-value="去冰">去冰</div>
+<div class="custom-option" data-value="完全去冰">完全去冰</div>
+<div class="custom-option" data-value="溫的">溫的</div>
+<div class="custom-option" data-value="熱的">熱的</div>
+</div>
+</div>
+<input id="ice" name="ice" type="hidden"/>
+</div><div class="feed">
+<input id="feed" name="feed" placeholder="珍珠,寒天..." type="text"/>
+</div><div class="money">
+<input id="money" name="money" placeholder="價錢" required="required" type="text"/>
+</div><div class="remark">
+<input id="remark" name="remark" placeholder="備註" type="text"/>
+</div></div>
+<div class="write_box_add" title="新增"></div></div>
+<div class="int_box int_box_open" id="showtext">
+</div>
+</div>
+<div class="int_box int_box_open" id="showtext_all_count">
+<div class="count_all_items">
+</div>
+<div class="count_money">
+<div class="count_items" title="杯數">
+<div><img height="40px" src="./images/drink2.png" width="40px"/></div>
+<div class="itemsGO"></div>
+</div>
+<div class="count_money_all" title="總價錢">
+<div><img height="40px" src="./images/dollars.png" width="40px"/></div>
+<div class="moneyGO"></div>
+</div>
+</div>
+</div>
+<script>
+document.querySelectorAll(".custom-select").forEach(select => {
+  const trigger = select.querySelector(".custom-select-trigger");
+  const options = select.querySelectorAll(".custom-option");
+  const targetInput = document.getElementById(select.dataset.target);
 
-        <div id="write_box_box" class="write_box">
-            <div class="name">
-                <input type="text" id="name" name="name" placeholder="姓名" required="required">
-            </div>
-            <div class="items">
-                <input type="text" id="items" name="items" placeholder="品項" required="required">
-            </div>
-            <div>
-                <div class="sugar-choose">
-                    <select id="sugar" name="sugar">
-                        <option value="">請選擇甜度</option>
-                        <option value="固定">固定</option>
-                        <option value="正常">正常</option>
-                        <option value="少糖">少糖(七分)</option>
-                        <option value="半糖">半糖(五分)</option>
-                        <option value="微糖">微糖(三分)</option>
-                        <option value="一分">一分</option>
-                        <option value="無糖">無糖</option>
-                    </select>
-                </div>
-            </div>
-            <div class="ice-choose">
-                <select id="ice" name="ice">
-                    <option value="">請選擇冰度</option>
-                    <option value="正常">正常</option>
-                    <option value="少冰">少冰</option>
-                    <option value="微冰">微冰</option>
-                    <option value="去冰">去冰</option>
-                    <option value="完全去冰">完全去冰</option>
-                    <option value="溫的">溫的</option>
-                    <option value="熱的">熱的</option>
-                </select>
-            </div>
-            <div class="feed">
-                <input type="text" id="feed" name="feed" placeholder="珍珠,寒天...">
-            </div>
-            <div class="money">
-                <input type="text" id="money" name="money" placeholder="價錢" required="required">
-            </div>
-            <div class="remark">
-                <input type="text" id="remark" name="remark" placeholder="備註">
-            </div>
-            <div class="write_box_add" title="新增"></div>
-        </div>
-        <div id="showtext" class="int_box int_box_open">
-        </div>
-        
-    </div>
-    <div id="showtext_all_count" class="int_box int_box_open">
-        <div class="count_all_items">
-        </div>
-        <div class="count_money">
-            <div class="count_items" title="杯數">
-                <div><img src="./images/drink2.png" width="40px" height="40px"></div>
-                <div class="itemsGO"></div>
-            </div>
-            <div class="count_money_all" title="總價錢">
-                <div><img src="./images/dollars.png" width="40px" height="40px"></div>
-                <div class="moneyGO"></div>
-            </div>
-        </div>
-    </div> 
+  trigger.addEventListener("click", () => {
+    select.classList.toggle("open");
+  });
+
+  options.forEach(option => {
+    option.addEventListener("click", () => {
+      options.forEach(o => o.classList.remove("selected"));
+      option.classList.add("selected");
+      trigger.textContent = option.textContent;
+      targetInput.value = option.dataset.value;
+      select.classList.remove("open");
+    });
+  });
+
+  document.addEventListener("click", e => {
+    if (!select.contains(e.target)) select.classList.remove("open");
+  });
+});
+</script>
 </body>
-    <script src="new2.js"></script>
+<script src="new2.js"></script>
 </html>

@@ -178,10 +178,20 @@ $(function(){
                         return obj
                 },{});
                 
-                for (const [key, val] of Object.entries(total_items)) {
-                        $count_all_items.prepend('<div class="goods"><div class="item_name">'+key+'</div><div class="item_count">'+val+'</div></div>');
-                }
+                // for (const [key, val] of Object.entries(total_items)) {
+                //         $count_all_items.prepend('<div class="goods"><div class="item_name">'+key+'</div><div class="item_count">'+val+'</div></div>');
+                // }
                 
+                for (const [key, val] of Object.entries(total_items)) {
+                        $count_all_items.prepend(`
+                          <div class="count_item_card">
+                            <span class="name">${key}</span>
+                            <span class="price"></span>
+                            <span class="qty">x${val}</span>
+                          </div>
+                        `);
+                }
+
                 console.log(total_items);
                 $count_items.html(count_i);
                 $count_money_all.html(total_money);
