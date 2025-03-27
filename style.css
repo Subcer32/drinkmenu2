@@ -77,6 +77,10 @@ button, .add_button, .change_color, .delete_item, .delete_all {
     font-size: 16px;
     padding: 6px 0;
 }
+.style_items{
+    font-size: 24px;
+    font-weight: 900;
+}
 
 /* 統計資訊區塊 */
 .count_items, .count_money, .count_money_all {
