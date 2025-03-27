@@ -531,3 +531,62 @@ body {
   transform: scale(1.1);
   box-shadow: 0 6px 18px rgba(212, 175, 55, 0.5);
 }
+
+
+
+.style_sugar:focus, .style_ice:focus {
+    border-color: #D4AF37 !important;
+    box-shadow: 0 0 0 2px rgba(212,175,55,0.5) !important;
+    outline: none !important;
+}
+
+
+
+/* 移除右側項目欄 hover 效果 */
+.item_box .style_name:hover,
+.item_box .item_name:hover,
+.item_box .style_sugar:hover,
+.item_box .style_ice:hover,
+.item_box .style_feed:hover,
+.item_box .style_remark:hover,
+.item_box .style_money:hover {
+    background-color: inherit !important;
+    color: inherit !important;
+    box-shadow: none !important;
+    cursor: default !important;
+}
+
+/* 刪除按鈕重新設計 */
+.delete_item, .delete_all {
+    background-color: #2b2b2b;
+    color: #ffffff !important;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+.delete_all{
+    margin-top: 20px;
+}
+
+
+.delete_item:hover, .delete_all:hover {
+    background-color: #a83232;
+    color: #fff;
+}
+
+#showtext_all_count{
+    width: 100%;
+    height: 480px;
+    position: fixed;
+    top: 10%;
+    right: 0;
+    transform: translateX(90%);
+    transition: all 0.5s;
+    cursor: pointer;
+    overflow-y:scroll;
+}
+.slide_all_count{
+    transform: translateX(0%) !important;
+}

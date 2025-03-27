@@ -1,6 +1,5 @@
 
 <!DOCTYPE html>
-
 <html lang="zh-tw">
 <head>
 <meta charset="utf-8"/>
@@ -133,24 +132,27 @@ select:focus {
 </div><div class="remark">
 <input id="remark" name="remark" placeholder="備註" type="text"/>
 </div></div>
-<div class="write_box_add" title="新增"></div></div>
+<div class="write_box_add" title="新增"></div>
+<button class="delete_all">全部刪除</button>
+</div>
 <div class="int_box int_box_open" id="showtext">
 </div>
 </div>
-<div class="int_box int_box_open" id="showtext_all_count">
-<div class="count_all_items">
-</div>
-<div class="count_money">
-<div class="count_items" title="杯數">
-<div><img height="40px" src="./images/drink2.png" width="40px"/></div>
-<div class="itemsGO"></div>
-</div>
-<div class="count_money_all" title="總價錢">
-<div><img height="40px" src="./images/dollars.png" width="40px"/></div>
-<div class="moneyGO"></div>
-</div>
-</div>
-</div>
+  <div class="int_box int_box_open" id="showtext_all_count">
+    <div class="count_all_items">
+    </div>
+    <div class="count_money">
+      <div class="count_items" title="杯數">
+        <div><img height="40px" src="./images/drink2.png" width="40px"/></div>
+        <div class="itemsGO"></div>
+      </div>
+      <div class="count_money_all" title="總價錢">
+      <div>
+        <img height="40px" src="./images/dollars.png" width="40px"/></div>
+        <div class="moneyGO"></div>
+      </div>
+    </div>
+  </div>
 <script>
 document.querySelectorAll(".custom-select").forEach(select => {
   const trigger = select.querySelector(".custom-select-trigger");

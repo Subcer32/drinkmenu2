@@ -228,3 +228,14 @@ $(function(){
 
 
 });
+
+
+$('#showtext_all_count').click(function(){
+        var _this = $(this)
+        if(_this.hasClass('slide_all_count')){
+                _this.removeClass('slide_all_count');
+        }
+        else{
+                _this.addClass('slide_all_count');
+        }
+});
