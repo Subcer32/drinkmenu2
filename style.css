@@ -581,7 +581,9 @@ body {
     padding: 10px;
     border-radius: 5px;
     width: 90%;
-    height: 500px;
+    height: 30px;
+    border: 1px solid #D4AF37;
+    border-left: 6px solid #D4AF37;
     position: fixed;
     top: 50%;
     right: 0;
@@ -603,4 +605,5 @@ body {
 } */
 .slide_all_count{
     transform: translateX(0%) !important;
+    height: 500px !important;
 }
