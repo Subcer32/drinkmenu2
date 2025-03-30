@@ -1302,5 +1302,11 @@ input[type="text"]:focus,
     #showtext_all_count {
         width: 100%;
     }
-
+    .count_items, .count_money_al{
+        overflow: auto;
+    }
+    .count_items, .count_money_all{
+        display: block;
+        padding: none;
+    }
 }
