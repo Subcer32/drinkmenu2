@@ -1,12 +1,28 @@
-
 body {
     font-family: 'Noto Sans TC', sans-serif;
-    background-color: #121212 !important;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%) !important;
     color: #E0E0E0;
     margin: 0;
-    padding: 0;
+    padding: 30px;
     font-size: 18px;
     line-height: 1.6;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
 }
 
 /* 共用元素 */
@@ -22,12 +38,6 @@ input, select, textarea, button {
     transition: all 0.3s ease;
     box-sizing: border-box;
 }
-
-/* input:focus, select:focus, textarea:focus {
-    border-color: #D4AF37;
-    box-shadow: 0 0 0 2px rgba(212,175,55,0.3);
-    outline: none;
-} */
 
 /* 表單區塊 */
 .write_box, .write_box_add, .style_name, .style_ice, .style_sugar, .style_feed, .style_remark, .style_money {
@@ -54,11 +64,6 @@ button, .add_button, .change_color, .delete_item, .delete_all {
     font-weight: 600;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
-
-/* button:hover, .add_button:hover, .change_color:hover, .delete_item:hover, .delete_all:hover {
-    background-color: #cfae4e;
-    transform: translateY(-1px);
-} */
 
 /* 商品區塊 */
 .items_box_box, .item_box {
@@ -104,13 +109,35 @@ h1, h2, h3 {
 
 /* 強制所有元素文字顏色 */
 *, *::before, *::after {
-    color: #E0E0E0 !important;
+    color: #E0E0E0;
 }
 
-/* hover 修正：強制文字顏色維持亮灰白 */
-/* button:hover, .add_button:hover, .change_color:hover, .delete_item:hover, .delete_all:hover {
+/* 按鈕文字顏色例外 */
+button, 
+.add_button, 
+.change_color, 
+.delete_item, 
+.delete_all,
+.write_box_add,
+.write_box_add::before {
     color: #121212 !important;
-} */
+}
+
+/* 金色文字例外 */
+.count_item_card .qty,
+.count_items::before,
+.count_money_all::before,
+#showtext_all_count::before,
+.count_all_items::before,
+.itemsGO,
+.moneyGO {
+    color: #D4AF37 !important;
+}
+
+/* 自定義選單選中項目文字顏色 */
+.custom-option.selected {
+    color: #121212 !important;
+}
 
 /* 主容器留白不貼齊左右邊 */
 body {
@@ -155,13 +182,6 @@ body {
     background-color: inherit !important;
     color: inherit !important;
 }
-
-/* 輸入框點擊強化外框對比 */
-/* input:focus, select:focus, textarea:focus {
-    border-color: #4CAF50;
-    box-shadow: 0 0 0 2px rgba(76,175,80, 0.7);
-    outline: none;
-} */
 
 /* 統計清單主區塊容器 */
 .countlist {
@@ -324,13 +344,27 @@ body {
 
 /* === 表單輸入區容器 === */
 .input_panel {
-    background: linear-gradient(145deg, #1c1c1c, #111);
-    padding: 24px 20px;
-    border-radius: 14px;
-    border: 1px solid #333;
-    box-shadow: inset 0 0 10px rgba(212, 175, 55, 0.05);
-    margin-bottom: 24px;
+    background: linear-gradient(145deg, rgba(20, 20, 20, 0.9), rgba(30, 30, 30, 0.9));
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 40px;
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.2),
+        inset 0 1px 1px rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(212, 175, 55, 0.15);
     position: relative;
+    overflow: hidden;
+}
+
+.input_panel::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.03) 0%, transparent 60%);
+    animation: rotateGradient 15s linear infinite;
 }
 
 /* 輸入表單區的排版：上下整齊分欄 */
@@ -357,23 +391,29 @@ body {
 /* 所有欄位框統一高度/風格 */
 .input_panel input,
 .input_panel select,
-.input_panel textarea {
-    background-color: #151515;
-    border: 1px solid #333;
-    padding: 10px;
-    color: #eee;
-    border-radius: 6px;
-    font-size: 15px;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+.input_panel textarea,
+.custom-select-trigger {
+    background: rgba(15, 15, 15, 0.8);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 12px;
+    padding: 14px 18px;
+    color: #E0E0E0;
+    font-size: 16px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Focus 效果 */
 .input_panel input:focus,
 .input_panel select:focus,
-.input_panel textarea:focus {
+.input_panel textarea:focus,
+.custom-select-trigger:hover {
     border-color: #D4AF37;
-    box-shadow: 0 0 4px #D4AF37;
-    outline: none;
+    box-shadow: 
+        0 0 0 2px rgba(212, 175, 55, 0.1),
+        inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px);
 }
 
 /* '+' 按鈕調整 */
@@ -442,7 +482,6 @@ body {
   }
 }
 
-
 /* === Custom Select for V11 === */
 
 /* 自訂選單容器 */
@@ -469,8 +508,6 @@ body {
     border-color: #D4AF37;
     box-shadow: 0 0 4px #D4AF37;
     outline: none;
-  /* border-color: #D4AF37;
-  box-shadow: 0 0 4px rgba(212, 175, 55, 0.4); */
 }
 
 .custom-options {
@@ -507,44 +544,52 @@ body {
   color: #000;
 }
 
-
 /* === 自訂送出按鈕風格 === */
 .write_box_add {
-  width: 48px;
-  height: 48px;
+  width: 70px;
+  height: 70px;
   background: linear-gradient(145deg, #D4AF37, #c79f2c);
   border-radius: 50%;
-  box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
+  margin: 40px auto;
   cursor: pointer;
-  transition: all 0.25s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 26px;
-  color: #000;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+      0 10px 20px rgba(0, 0, 0, 0.3),
+      0 0 0 2px rgba(212, 175, 55, 0.3),
+      inset 0 2px 5px rgba(255, 255, 255, 0.3);
   position: relative;
+  overflow: hidden;
 }
 
 .write_box_add::before {
   content: "+";
-  font-weight: bold;
-  line-height: 1;
+  font-size: 38px;
+  color: #000;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+  transition: all 0.4s ease;
 }
 
 .write_box_add:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 18px rgba(212, 175, 55, 0.5);
+  transform: scale(1.1) rotate(180deg);
+  box-shadow: 
+      0 15px 30px rgba(0, 0, 0, 0.4),
+      0 0 0 4px rgba(212, 175, 55, 0.4),
+      inset 0 2px 5px rgba(255, 255, 255, 0.4);
 }
 
-
+.write_box_add:hover::before {
+  text-shadow: 0 2px 4px rgba(255, 255, 255, 0.4);
+}
 
 .style_sugar:focus, .style_ice:focus {
     border-color: #D4AF37 !important;
     box-shadow: 0 0 0 2px rgba(212,175,55,0.5) !important;
     outline: none !important;
 }
-
-
 
 /* 移除右側項目欄 hover 效果 */
 .item_box .style_name:hover,
@@ -574,40 +619,672 @@ body {
     margin-top: 20px;
 }
 
-
 .delete_item:hover, .delete_all:hover {
     background-color: #a83232;
     color: #fff;
 }
 
-#showtext_all_count{
-    background-color: #121212;
-    padding: 10px;
-    border-radius: 5px;
-    width: 90%;
-    height: 30px;
-    border: 1px solid #D4AF37;
-    border-left: 6px solid #D4AF37;
+/* 訂單統計面板基礎樣式 */
+#showtext_all_count {
+    background: linear-gradient(145deg, rgba(18, 18, 18, 0.95), rgba(28, 28, 28, 0.95));
+    padding: 15px;
+    border-radius: 20px 0 0 20px;
+    width: 380px;
+    min-height: 50px;
+    height: auto;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-right: none;
     position: fixed;
     top: 50%;
     right: 0;
-    margin-top: -250px;
-    transform: translateX(90%);
-    transition: all 0.5s;
+    transform: translateY(-50%) translateX(calc(100% - 50px));
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
-    overflow-y:scroll;
+    overflow: hidden;
+    box-shadow: -8px 0 25px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
 }
-/* #showtext_all_count::before{
-    content: '';
+
+/* 側邊標籤容器優化 */
+#showtext_all_count .side-label {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 50px;
+    background: linear-gradient(180deg, rgba(212, 175, 55, 0.15), rgba(18, 18, 18, 0.95));
+    border-right: 1px solid rgba(212, 175, 55, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+/* 側邊標籤文字優化 */
+#showtext_all_count .side-label::before {
+    content: "訂單統計";
+    writing-mode: vertical-lr;
+    color: #D4AF37;
+    font-weight: bold;
+    letter-spacing: 3px;
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+    font-size: 16px;
+    opacity: 1;
+    transition: none;
+    position: relative;
+    z-index: 3;
+    padding: 15px 0;
+    height: auto;
+    min-height: fit-content;
+    white-space: nowrap;
+}
+
+/* 主要內容區域 */
+#showtext_all_count .content-area {
+    margin-left: 50px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+
+/* 展開狀態優化 */
+#showtext_all_count.slide_all_count {
+    transform: translateY(-50%) translateX(0);
+    height: auto;
+    max-height: 85vh;
+    padding: 25px 25px 25px 60px;
+    overflow-y: auto;
+    box-shadow: -12px 0 30px rgba(0, 0, 0, 0.5);
+}
+
+/* 展開狀態時顯示內容 */
+#showtext_all_count.slide_all_count .content-area {
+    opacity: 1;
+    position: static;
+    pointer-events: auto;
+    transition-delay: 0.2s;
+}
+
+/* 確保側邊標籤文字永遠可見 */
+#showtext_all_count .side-label::before {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* 調整內容區域的定位 */
+.count_all_items {
+    position: relative;
+    z-index: 1;
+}
+
+/* 優化展開/收起過渡效果 */
+#showtext_all_count {
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1), height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#showtext_all_count .content-area {
+    transition: opacity 0.3s ease 0.2s;
+}
+
+/* 確保收起狀態下側邊標籤文字可見 */
+#showtext_all_count:not(.slide_all_count) .side-label::before {
+    opacity: 1 !important;
+    visibility: visible !important;
+    position: relative;
+    z-index: 5;
+}
+
+/* 訂單統計標題優化 */
+.count_all_items::before {
+    content: "訂單明細";
     display: block;
+    background: linear-gradient(90deg, #D4AF37, #c79f2c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0 0 20px 0;
+    text-align: center;
+    letter-spacing: 2px;
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+    position: relative;
+}
+
+.count_all_items::after {
+    content: "";
+    display: block;
+    width: 60%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.5), transparent);
+    margin: 15px auto 25px;
+}
+
+/* 訂單項目卡片優化 */
+.count_item_card {
+    background: linear-gradient(145deg, 
+        rgba(30, 30, 30, 0.9),
+        rgba(40, 40, 40, 0.9)
+    );
+    margin: 20px 0;
+    padding: 20px 25px;
+    border-radius: 16px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-left: 4px solid #D4AF37;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 20px;
+    align-items: center;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.2),
+        inset 0 1px 1px rgba(255, 255, 255, 0.05);
+}
+
+.count_item_card:hover {
+    transform: translateX(-10px);
+    border-color: rgba(212, 175, 55, 0.4);
+    box-shadow: 
+        10px 10px 30px rgba(0, 0, 0, 0.3),
+        inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    background: linear-gradient(145deg, 
+        rgba(35, 35, 35, 0.95),
+        rgba(45, 45, 45, 0.95)
+    );
+}
+
+.count_item_card .name {
+    font-size: 15px;
+    color: #E0E0E0;
+    line-height: 1.5;
+    position: relative;
+    padding-left: 8px;
+}
+
+.count_item_card .qty {
+    font-size: 18px;
+    font-weight: bold;
+    color: #D4AF37;
+    padding: 8px 16px;
+    background: rgba(212, 175, 55, 0.1);
+    border-radius: 10px;
+    box-shadow: 
+        inset 0 0 10px rgba(212, 175, 55, 0.1),
+        0 2px 4px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+/* 總計區域優化 */
+.count_money {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 2px solid rgba(212, 175, 55, 0.2);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.count_items, .count_money_all {
+    background: linear-gradient(145deg, 
+        rgba(30, 30, 30, 0.95),
+        rgba(40, 40, 40, 0.95)
+    );
+    padding: 25px;
+    border-radius: 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    box-shadow: 
+        0 15px 30px rgba(0, 0, 0, 0.3),
+        inset 0 1px 1px rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+}
+
+.count_items::before, .count_money_all::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 60%);
+    animation: rotateGradient 8s linear infinite;
+}
+
+@keyframes rotateGradient {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.itemsGO, .moneyGO {
+    font-size: 24px;
+    font-weight: bold;
+    background: linear-gradient(90deg, #D4AF37, #ffd700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+    position: relative;
+    z-index: 1;
+}
+
+/* 滾動條優化 */
+#showtext_all_count::-webkit-scrollbar {
+    width: 6px;
+}
+
+#showtext_all_count::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+}
+
+#showtext_all_count::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(212, 175, 55, 0.3), rgba(212, 175, 55, 0.5));
+    border-radius: 3px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+#showtext_all_count::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgba(212, 175, 55, 0.5), rgba(212, 175, 55, 0.7));
+}
+
+/* 主要容器優化 */
+.information {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: rgba(25, 25, 25, 0.8);
+    backdrop-filter: blur(20px);
+    border-radius: 30px;
+    padding: 40px;
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.4),
+        0 0 100px rgba(212, 175, 55, 0.05);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.information::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent,
+        rgba(212, 175, 55, 0.2),
+        transparent
+    );
+}
+
+/* 表單標題動畫優化 */
+.form-title-animate {
+    font-size: 28px;
+    background: linear-gradient(90deg, #D4AF37, #FFD700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 35px;
+    font-weight: bold;
+    text-align: center;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.form-title-animate::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
     width: 100px;
-    height: 30px;
-    background-color: #FFFFFF;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent,
+        rgba(212, 175, 55, 0.5),
+        transparent
+    );
+}
+
+/* 輸入框優化 */
+input[type="text"],
+.custom-select-trigger {
+    background: rgba(17, 17, 17, 0.7);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 10px;
+    padding: 12px 15px;
+    color: #E0E0E0;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+input[type="text"]:focus,
+.custom-select-trigger:hover {
+    border-color: #D4AF37;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+    transform: translateY(-1px);
+}
+
+/* 自定義選單優化 */
+.custom-select {
+    position: relative;
+}
+
+.custom-options {
+    background: rgba(20, 20, 20, 0.95);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 12px;
+    box-shadow: 
+        0 10px 25px rgba(0, 0, 0, 0.3),
+        inset 0 1px 1px rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+    margin-top: 5px;
+}
+
+.custom-option {
+    padding: 12px 18px;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 15px;
+}
+
+.custom-option:hover {
+    background: rgba(212, 175, 55, 0.1);
+    color: #D4AF37;
+    padding-left: 25px;
+}
+
+/* 新增按鈕優化 */
+.write_box_add {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(145deg, #D4AF37, #c79f2c);
+    border-radius: 50%;
+    margin: 40px auto;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 
+        0 10px 20px rgba(0, 0, 0, 0.3),
+        0 0 0 2px rgba(212, 175, 55, 0.3),
+        inset 0 2px 5px rgba(255, 255, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.write_box_add::before {
+    content: "+";
+    font-size: 38px;
+    color: #000;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+    transition: all 0.4s ease;
+}
+
+.write_box_add:hover {
+    transform: scale(1.1) rotate(180deg);
+    box-shadow: 
+        0 15px 30px rgba(0, 0, 0, 0.4),
+        0 0 0 4px rgba(212, 175, 55, 0.4),
+        inset 0 2px 5px rgba(255, 255, 255, 0.4);
+}
+
+.write_box_add:hover::before {
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.4);
+}
+
+/* 訂單統計面板優化 */
+#showtext_all_count {
+    background: rgba(18, 18, 18, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.4);
+}
+
+.side-label {
+    background: linear-gradient(180deg, rgba(212, 175, 55, 0.1), rgba(18, 18, 18, 0.95));
+    border-right: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.side-label::before {
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+/* 訂單卡片優化 */
+.count_item_card {
+    background: linear-gradient(145deg, 
+        rgba(30, 30, 30, 0.9),
+        rgba(40, 40, 40, 0.9)
+    );
+    margin: 20px 0;
+    padding: 20px 25px;
+    border-radius: 16px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-left: 4px solid #D4AF37;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 20px;
+    align-items: center;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.2),
+        inset 0 1px 1px rgba(255, 255, 255, 0.05);
+}
+
+.count_item_card:hover {
+    transform: translateX(-10px);
+    border-color: rgba(212, 175, 55, 0.4);
+    box-shadow: 
+        10px 10px 30px rgba(0, 0, 0, 0.3),
+        inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    background: linear-gradient(145deg, 
+        rgba(35, 35, 35, 0.95),
+        rgba(45, 45, 45, 0.95)
+    );
+}
+
+/* 刪除按鈕優化 */
+.delete_all {
+    background: linear-gradient(145deg, #2b2b2b, #232323);
+    color: #E0E0E0 !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 15px 30px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 16px;
+    letter-spacing: 1px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.2),
+        inset 0 1px 1px rgba(255, 255, 255, 0.05);
+    margin-top: 30px;
+}
+
+.delete_all:hover {
+    background: linear-gradient(145deg, #a83232, #922b2b);
+    transform: translateY(-2px);
+    box-shadow: 
+        0 12px 25px rgba(168, 50, 50, 0.3),
+        inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+/* 滾動條優化 */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(212, 175, 55, 0.2);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(212, 175, 55, 0.4);
+}
+
+/* 響應式調整 */
+@media screen and (max-width: 768px) {
+    #showtext_all_count {
+        width: 320px;
+        transform: translateY(-50%) translateX(calc(100% - 40px));
+    }
+
+    #showtext_all_count .side-label {
+        width: 40px;
+    }
+
+    #showtext_all_count.slide_all_count {
+        padding: 20px 15px 20px 45px;
+    }
+
+    .count_item_card {
+        padding: 15px 20px;
+    }
+
+    .count_item_card .name {
+        font-size: 14px;
+    }
+
+    .count_item_card .qty {
+        font-size: 14px;
+        padding: 4px 8px;
+    }
+
+    .count_money {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .itemsGO, .moneyGO {
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #showtext_all_count {
+        width: calc(100% - 40px);
+        right: 0;
+        border-radius: 15px 0 0 15px;
+    }
+
+    #showtext_all_count.slide_all_count {
+        width: calc(100% - 40px);
+        padding: 15px 12px 15px 45px;
+    }
+
+    .count_all_items::before {
+        font-size: 18px;
+        margin: 0 0 15px 0;
+    }
+
+    .count_item_card {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 10px 12px;
+    }
+
+    .count_item_card .qty {
+        justify-self: flex-end;
+    }
+
+    .count_money {
+        margin-top: 20px;
+        padding-top: 20px;
+    }
+
+    .count_items, .count_money_all {
+        padding: 15px;
+    }
+}
+
+/* 平板尺寸優化 */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    #showtext_all_count {
+        width: 350px;
+    }
+
+    #showtext_all_count.slide_all_count {
+        padding: 22px 20px 22px 55px;
+    }
+
+    .count_item_card {
+        padding: 15px 18px;
+    }
+}
+
+/* 確保側邊標籤文字在所有尺寸下都可見 */
+@media screen and (max-width: 768px) {
+    #showtext_all_count .side-label::before {
+        font-size: 14px;
+        letter-spacing: 2px;
+    }
+}
+
+/* 優化展開動畫在不同尺寸下的表現 */
+@media screen and (max-width: 480px) {
+    #showtext_all_count {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #showtext_all_count.slide_all_count {
+        max-height: 80vh;
+    }
+}
+
+/* 總計區域在手機版的優化 */
+@media screen and (max-width: 480px) {
+    .count_money {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .count_items, .count_money_all {
+        text-align: center;
+        padding: 15px;
+    }
+
+    .itemsGO, .moneyGO {
+        font-size: 18px;
+    }
+}
+
+/* 展開狀態時的側邊標籤 */
+#showtext_all_count.slide_all_count .side-label {
     position: fixed;
-    top: 0px;
-    left: -50px;
-} */
-.slide_all_count{
-    transform: translateX(0%) !important;
-    height: 500px !important;
+    height: auto;
+    min-height: 100%;
+}
+
+/* 動畫效果 */
+@keyframes glowPulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+}
+
+@keyframes floatAnimation {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+    100% { transform: translateY(0); }
 }
