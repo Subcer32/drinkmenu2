@@ -1293,3 +1293,14 @@ input[type="text"]:focus,
         border-left: 3px solid #D4AF37;
     }
 }
+
+@media screen and (max-width: 370px) {
+    #showtext_all_count.slide_all_count{
+        max-height: 65vh;
+    }
+
+    #showtext_all_count {
+        width: 100%;
+    }
+
+}
