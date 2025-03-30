@@ -1150,7 +1150,9 @@ input[type="text"]:focus,
     .count_money_all::before {
         display: none;
     }
-
+    .information{
+        padding: 10px;
+    }
     /* 移除模糊效果 */
     .information,
     #showtext_all_count,
