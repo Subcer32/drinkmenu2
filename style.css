@@ -1143,148 +1143,151 @@ input[type="text"]:focus,
     background: rgba(212, 175, 55, 0.4);
 }
 
-/* 響應式調整 */
-@media screen and (max-width: 768px) {
-    #showtext_all_count {
-        width: 320px;
-        transform: translateY(-50%) translateX(calc(100% - 40px));
+/* 響應式調整 - 移除特效 */
+@media screen and (max-width: 1024px) {
+    /* 移除背景漸變動畫 */
+    .count_items::before, 
+    .count_money_all::before {
+        display: none;
     }
 
-    #showtext_all_count .side-label {
-        width: 40px;
+    /* 移除模糊效果 */
+    .information,
+    #showtext_all_count,
+    .count_item_card,
+    .custom-options,
+    .input_panel {
+        backdrop-filter: none;
     }
 
-    #showtext_all_count.slide_all_count {
-        padding: 20px 15px 20px 45px;
-    }
-
+    /* 簡化陰影效果 */
     .count_item_card {
-        padding: 15px 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
     }
 
-    .count_item_card .name {
-        font-size: 14px;
+    /* 移除複雜的漸變背景 */
+    .count_items, 
+    .count_money_all,
+    .count_item_card {
+        background: rgba(30, 30, 30, 0.95);
     }
 
-    .count_item_card .qty {
-        font-size: 14px;
-        padding: 4px 8px;
+    /* 移除文字漸變效果 */
+    .itemsGO, 
+    .moneyGO {
+        background: none;
+        -webkit-background-clip: initial;
+        -webkit-text-fill-color: #D4AF37;
+        text-shadow: none;
     }
 
-    .count_money {
-        grid-template-columns: 1fr;
-        gap: 20px;
+    /* 簡化懸浮效果 */
+    .count_item_card:hover {
+        transform: translateX(-5px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        background: rgba(35, 35, 35, 0.95);
     }
 
-    .itemsGO, .moneyGO {
-        font-size: 20px;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    #showtext_all_count {
-        width: calc(100% - 40px);
-        right: 0;
-        border-radius: 15px 0 0 15px;
+    /* 移除旋轉動畫 */
+    @keyframes rotateGradient {
+        from { transform: none; }
+        to { transform: none; }
     }
 
-    #showtext_all_count.slide_all_count {
-        width: calc(100% - 40px);
-        padding: 15px 12px 15px 45px;
+    /* 簡化按鈕特效 */
+    .write_box_add {
+        transition: transform 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     }
 
+    .write_box_add:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    /* 移除複雜的邊框效果 */
+    .information::before {
+        display: none;
+    }
+
+    /* 簡化標題效果 */
+    .form-title-animate,
     .count_all_items::before {
-        font-size: 18px;
-        margin: 0 0 15px 0;
-    }
-
-    .count_item_card {
-        grid-template-columns: 1fr;
-        gap: 8px;
-        padding: 10px 12px;
-    }
-
-    .count_item_card .qty {
-        justify-self: flex-end;
-    }
-
-    .count_money {
-        margin-top: 20px;
-        padding-top: 20px;
-    }
-
-    .count_items, .count_money_all {
-        padding: 15px;
+        background: none;
+        -webkit-background-clip: initial;
+        -webkit-text-fill-color: #D4AF37;
+        text-shadow: none;
     }
 }
 
-/* 平板尺寸優化 */
-@media screen and (min-width: 769px) and (max-width: 1024px) {
-    #showtext_all_count {
-        width: 350px;
-    }
-
-    #showtext_all_count.slide_all_count {
-        padding: 22px 20px 22px 55px;
-    }
-
-    .count_item_card {
-        padding: 15px 18px;
-    }
-}
-
-/* 確保側邊標籤文字在所有尺寸下都可見 */
+/* 手機版更進一步優化 */
 @media screen and (max-width: 768px) {
-    #showtext_all_count .side-label::before {
-        font-size: 14px;
-        letter-spacing: 2px;
+    /* 移除所有轉場動畫 */
+    * {
+        transition: transform 0.3s ease !important;
     }
-}
 
-/* 優化展開動畫在不同尺寸下的表現 */
-@media screen and (max-width: 480px) {
+    /* 移除光暈效果 */
+    .count_item_card .qty {
+        box-shadow: none;
+        text-shadow: none;
+    }
+
+    /* 簡化展開/收起動畫 */
     #showtext_all_count {
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: transform 0.3s ease;
     }
 
+    /* 移除側邊欄陰影 */
     #showtext_all_count.slide_all_count {
-        max-height: 80vh;
+        box-shadow: -2px 0 8px rgba(0, 0, 0, 0.3);
+    }
+
+    /* 移除卡片動畫效果 */
+    .count_item_card {
+        transition: none;
+    }
+
+    .count_item_card:hover {
+        transform: none;
+        box-shadow: none;
+    }
+
+    /* 移除按鈕特效 */
+    .delete_all {
+        box-shadow: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .delete_all:hover {
+        transform: none;
+        box-shadow: none;
     }
 }
 
-/* 總計區域在手機版的優化 */
+/* 極小螢幕優化 */
 @media screen and (max-width: 480px) {
-    .count_money {
-        grid-template-columns: 1fr;
-        gap: 12px;
+    /* 完全移除所有動畫效果 */
+    * {
+        animation: none !important;
+        transition: none !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
     }
 
-    .count_items, .count_money_all {
-        text-align: center;
-        padding: 15px;
+    /* 移除所有背景漸變 */
+    .count_items,
+    .count_money_all,
+    .count_item_card,
+    .input_panel,
+    #showtext_all_count {
+        background: #1E1E1E;
     }
 
-    .itemsGO, .moneyGO {
-        font-size: 18px;
+    /* 簡化邊框 */
+    .count_item_card {
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        border-left: 3px solid #D4AF37;
     }
-}
-
-/* 展開狀態時的側邊標籤 */
-#showtext_all_count.slide_all_count .side-label {
-    position: fixed;
-    height: auto;
-    min-height: 100%;
-}
-
-/* 動畫效果 */
-@keyframes glowPulse {
-    0% { opacity: 0.5; }
-    50% { opacity: 1; }
-    100% { opacity: 0.5; }
-}
-
-@keyframes floatAnimation {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
-    100% { transform: translateY(0); }
 }
