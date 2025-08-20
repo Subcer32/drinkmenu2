@@ -125,17 +125,15 @@ $(function(){
                 });
                 $('.items_box_box').click(function(){
                         var _this = $(this);
-                        var first = $(this).find('.class');
-                        var catch_id = _this.attr('class');
+                        var catch_id = _this.attr('id');
                         
                         if(_this.hasClass('change_color')){
                                 _this.removeClass('change_color');
-                                first.removeClass('check_active');
-                        
+                                _this.removeClass('check_active');
                         }
                         else{
                                 _this.addClass('change_color');
-                                first.addClass('check_active');
+                                _this.addClass('check_active');
                         }
                         console.log(catch_id);
                 });
