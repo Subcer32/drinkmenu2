@@ -26,38 +26,13 @@
                 <h1>🥤 團購點餐去</h1>
             </header>
 
-            <!-- 菜單圖片 Modal -->
-            <div id="menu-modal" class="modal">
-                <div class="modal-content">
-                    <span class="close-modal">&times;</span>
-                    <h3>📷 今日菜單</h3>
-                    <div class="menu-upload-area" id="menu-upload-area">
-                        <img id="menu-image" src="" alt="尚未上傳菜單" style="display:none;">
-                        <div class="upload-placeholder" id="upload-placeholder">
-                            <i class="upload-icon">☁️</i>
-                            <p>還沒有主揪上傳菜單喔！</p>
-                            <p>請直接 <strong>Ctrl+V 貼上圖片</strong><br>或是</p>
-                            <input type="file" id="menu-file-input" accept="image/*" style="display:none;">
-                            <button id="btn-select-file" class="upload-btn-styled">📂 選擇圖片上傳</button>
-                        </div>
-
-                        <!-- Zoom Controls -->
-                        <div class="zoom-controls" id="zoom-controls" style="display:none;">
-                            <button class="zoom-btn" id="btn-zoom-in" title="放大">＋</button>
-                            <button class="zoom-btn" id="btn-zoom-out" title="縮小">－</button>
-                            <button class="zoom-btn" id="btn-zoom-reset" title="還原">⟲</button>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <p class="hint-text">* 支援電腦版直接貼上截圖</p>
-                    </div>
-                </div>
-            </div>
+            <!-- 菜單圖片 Modal (Moved to Body end) -->
 
             <!-- 分頁導航 -->
             <div class="tabs-nav">
                 <button class="tab-btn active" data-tab="drink">
-                    <span class="icon">🧋</span> 訂飲料
+                    <img src="images/bubble_tea_icon.png" class="tab-icon-img" alt="Drink">
+                    訂飲料
                 </button>
                 <button class="tab-btn" data-tab="bento">
                     <span class="icon">🍱</span> 訂便當
@@ -272,6 +247,34 @@
             </div>
 
             <button id="btn-copy-stats">複製統計結果</button>
+        </div>
+    </div>
+
+    <!-- 菜單圖片 Modal -->
+    <div id="menu-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>📷 今日菜單</h3>
+            <div class="menu-upload-area" id="menu-upload-area">
+                <img id="menu-image" src="" alt="尚未上傳菜單" style="display:none;">
+                <div class="upload-placeholder" id="upload-placeholder">
+                    <i class="upload-icon">☁️</i>
+                    <p>還沒有主揪上傳菜單喔！</p>
+                    <p>請直接 <strong>Ctrl+V 貼上圖片</strong><br>或是</p>
+                    <input type="file" id="menu-file-input" accept="image/*" style="display:none;">
+                    <button id="btn-select-file" class="upload-btn-styled">📂 選擇圖片上傳</button>
+                </div>
+
+                <!-- Zoom Controls -->
+                <div class="zoom-controls" id="zoom-controls" style="display:none;">
+                    <button class="zoom-btn" id="btn-zoom-in" title="放大">＋</button>
+                    <button class="zoom-btn" id="btn-zoom-out" title="縮小">－</button>
+                    <button class="zoom-btn" id="btn-zoom-reset" title="還原">⟲</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <p class="hint-text">* 支援電腦版直接貼上截圖</p>
+            </div>
         </div>
     </div>
 
