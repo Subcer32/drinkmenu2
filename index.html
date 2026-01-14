@@ -1,153 +1,281 @@
 <!DOCTYPE html>
 <html lang="zh-tw">
-    <head>
-        <meta charset="utf-8"/>
-        <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
-        <link href="./images/drink2.png" rel="icon" type="image/x-icon"/>
-        <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-        <link href="style.css" rel="stylesheet"/>
-        <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-        <title>飲料(點餐)訂單</title>
-    </head>
-    <body>
-        <div class="information">
-            <div class="write_box" id="write_box_box">
-                <div class="form-title-animate">🥤 點餐時間到！來杯好茶吧！</div>
-                
-                <!-- 第一行：姓名和品項 -->
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="name">姓名</label>
-                        <input id="name" name="name" placeholder="請輸入姓名" required="required" type="text"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="items">品項</label>
-                        <input id="items" name="items" placeholder="請選擇飲料" required="required" type="text"/>
-                    </div>
-                </div>
 
-                <!-- 第二行：甜度和冰度 -->
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>甜度</label>
-                        <div class="custom-select" data-target="sugar">
-                            <div class="custom-select-trigger">請選擇甜度</div>
-                            <div class="custom-options">
-                                <div class="custom-option" data-value="">請選擇甜度</div>
-                                <div class="custom-option" data-value="固定">固定</div>
-                                <div class="custom-option" data-value="正常">正常</div>
-                                <div class="custom-option" data-value="少糖">少糖(七分)</div>
-                                <div class="custom-option" data-value="半糖">半糖(五分)</div>
-                                <div class="custom-option" data-value="微糖">微糖(三分)</div>
-                                <div class="custom-option" data-value="一分">一分</div>
-                                <div class="custom-option" data-value="無糖">無糖</div>
-                            </div>
+<head>
+    <meta charset="utf-8" />
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    <link href="./images/drink2.png" rel="icon" type="image/x-icon" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link href="style.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <title>團購點餐系統</title>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- 主要點餐卡片 -->
+        <div class="main-card">
+            <header class="app-header">
+                <h1>🥤 團購點餐去</h1>
+            </header>
+
+            <!-- 菜單圖片 Modal -->
+            <div id="menu-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close-modal">&times;</span>
+                    <h3>📷 今日菜單</h3>
+                    <div class="menu-upload-area" id="menu-upload-area">
+                        <img id="menu-image" src="" alt="尚未上傳菜單" style="display:none;">
+                        <div class="upload-placeholder" id="upload-placeholder">
+                            <i class="upload-icon">☁️</i>
+                            <p>還沒有主揪上傳菜單喔！</p>
+                            <p>請直接 <strong>Ctrl+V 貼上圖片</strong><br>或是</p>
+                            <input type="file" id="menu-file-input" accept="image/*" style="display:none;">
+                            <button id="btn-select-file" class="upload-btn-styled">📂 選擇圖片上傳</button>
                         </div>
-                        <input id="sugar" name="sugar" type="hidden"/>
-                    </div>
-                    <div class="form-group">
-                        <label>冰度</label>
-                        <div class="custom-select" data-target="ice">
-                            <div class="custom-select-trigger">請選擇冰度</div>
-                            <div class="custom-options">
-                                <div class="custom-option" data-value="">請選擇冰度</div>
-                                <div class="custom-option" data-value="正常">正常</div>
-                                <div class="custom-option" data-value="少冰">少冰</div>
-                                <div class="custom-option" data-value="微冰">微冰</div>
-                                <div class="custom-option" data-value="去冰">去冰</div>
-                                <div class="custom-option" data-value="完全去冰">完全去冰</div>
-                                <div class="custom-option" data-value="溫的">溫的</div>
-                                <div class="custom-option" data-value="熱的">熱的</div>
-                            </div>
+
+                        <!-- Zoom Controls -->
+                        <div class="zoom-controls" id="zoom-controls" style="display:none;">
+                            <button class="zoom-btn" id="btn-zoom-in" title="放大">＋</button>
+                            <button class="zoom-btn" id="btn-zoom-out" title="縮小">－</button>
+                            <button class="zoom-btn" id="btn-zoom-reset" title="還原">⟲</button>
                         </div>
-                        <input id="ice" name="ice" type="hidden"/>
+                    </div>
+                    <div class="modal-footer">
+                        <p class="hint-text">* 支援電腦版直接貼上截圖</p>
                     </div>
                 </div>
+            </div>
 
-                <!-- 第三行：加料和價錢 -->
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="feed">加料</label>
-                        <input id="feed" name="feed" placeholder="珍珠、寒天..." type="text"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="money">價錢</label>
-                        <input id="money" name="money" placeholder="請輸入價錢" required="required" type="text"/>
-                    </div>
-                </div>
+            <!-- 分頁導航 -->
+            <div class="tabs-nav">
+                <button class="tab-btn active" data-tab="drink">
+                    <span class="icon">🧋</span> 訂飲料
+                </button>
+                <button class="tab-btn" data-tab="bento">
+                    <span class="icon">🍱</span> 訂便當
+                </button>
+            </div>
 
-                <!-- 第四行：備註 -->
-                <div class="form-row">
+            <!-- 飲料表單 -->
+            <div id="tab-drink" class="tab-content active">
+                <form id="drink-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">姓名</label>
+                            <input id="name" name="name" placeholder="你是誰？" required type="text" />
+                        </div>
+                        <div class="form-group">
+                            <label for="items">飲料品項</label>
+                            <input id="items" name="items" placeholder="想喝什麼？" required type="text" />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>甜度</label>
+                            <div class="custom-select" data-target="sugar">
+                                <div class="custom-select-trigger">選擇甜度</div>
+                                <div class="custom-options">
+                                    <div class="custom-option" data-value="固定">固定</div>
+                                    <div class="custom-option" data-value="正常">正常</div>
+                                    <div class="custom-option" data-value="少糖">少糖 (7分)</div>
+                                    <div class="custom-option" data-value="半糖">半糖 (5分)</div>
+                                    <div class="custom-option" data-value="微糖">微糖 (3分)</div>
+                                    <div class="custom-option" data-value="一分">一分 (1分)</div>
+                                    <div class="custom-option" data-value="無糖">無糖</div>
+                                </div>
+                            </div>
+                            <input id="sugar" name="sugar" type="hidden" />
+                        </div>
+                        <div class="form-group">
+                            <label>冰塊</label>
+                            <div class="custom-select" data-target="ice">
+                                <div class="custom-select-trigger">選擇冰塊</div>
+                                <div class="custom-options">
+                                    <div class="custom-option" data-value="正常">正常</div>
+                                    <div class="custom-option" data-value="少冰">少冰</div>
+                                    <div class="custom-option" data-value="微冰">微冰</div>
+                                    <div class="custom-option" data-value="去冰">去冰</div>
+                                    <div class="custom-option" data-value="完全去冰">完全去冰</div>
+                                    <div class="custom-option" data-value="溫的">溫的</div>
+                                    <div class="custom-option" data-value="熱的">熱的</div>
+                                </div>
+                            </div>
+                            <input id="ice" name="ice" type="hidden" />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="feed">加料</label>
+                            <input id="feed" name="feed" placeholder="珍珠、椰果..." type="text" />
+                        </div>
+                        <div class="form-group">
+                            <label for="money">價格</label>
+                            <input id="money" name="money" placeholder="多少錢？" required type="number" />
+                        </div>
+                    </div>
+
                     <div class="form-group full-width">
                         <label for="remark">備註</label>
-                        <input id="remark" name="remark" placeholder="特殊需求或備註..." type="text"/>
+                        <input id="remark" name="remark" placeholder="特殊需求..." type="text" />
                     </div>
-                </div>
+                </form>
+            </div>
 
-                <!-- 按鈕區域 -->
-                <div class="button-area">
-                    <div class="write_box_add" title="新增訂單"></div>
-                    <button class="delete_all">全部刪除</button>
+            <!-- 便當表單 -->
+            <div id="tab-bento" class="tab-content">
+                <form id="bento-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bento-name">姓名</label>
+                            <input id="bento-name" name="name" placeholder="你是誰？" required type="text" />
+                        </div>
+                        <div class="form-group">
+                            <label for="main-dish">主餐</label>
+                            <input id="main-dish" name="items" placeholder="雞腿飯、排骨飯..." required type="text" />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>飯/麵選擇</label>
+                            <div class="custom-select" data-target="rice-type">
+                                <div class="custom-select-trigger">正常飯</div>
+                                <div class="custom-options">
+                                    <div class="custom-option" data-value="正常飯">正常飯</div>
+                                    <div class="custom-option" data-value="少飯">少飯</div>
+                                    <div class="custom-option" data-value="半飯">半飯</div>
+                                    <div class="custom-option" data-value="多飯">多飯</div>
+                                    <div class="custom-option" data-value="不要飯">不要飯</div>
+                                    <div class="custom-option" data-value="換菜">換菜</div>
+                                </div>
+                            </div>
+                            <input id="rice-type" name="riceType" type="hidden" value="正常飯" />
+                        </div>
+                        <div class="form-group">
+                            <label for="bento-money">價格</label>
+                            <input id="bento-money" name="money" placeholder="多少錢？" required type="number" />
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="bento-sides">配菜/加點 (選填)</label>
+                        <input id="bento-sides" name="feed" placeholder="加蛋、不吃洋蔥..." type="text" />
+                    </div>
+                </form>
+            </div>
+
+            <!-- 按鈕區域 -->
+            <div class="button-area">
+                <div class="btn-submit" title="送出訂單">
+                    <span>＋ 新增訂單</span>
                 </div>
+                <button class="btn-delete-all">清空重來</button>
             </div>
 
             <!-- 訂單列表區域 -->
             <div class="orders-section">
-                <h3 class="orders-title">📋 訂單列表</h3>
-                <div class="int_box int_box_open" id="showtext"></div>
-            </div>
-        </div>
-
-        <!-- 右側統計面板 -->
-        <div class="int_box int_box_open" id="showtext_all_count">
-            <div class="side-label"></div>
-            <div class="content-area">
-                <div class="count_all_items"></div>
-                <div class="count_money">
-                    <div class="count_items" title="杯數">
-                        <div class="icon-container">
-                            <img height="40px" src="./images/drink2.png" width="40px"/>
-                        </div>
-                        <div class="itemsGO"></div>
+                <div class="section-header">
+                    <h3>📋 訂單列表</h3>
+                    <div class="list-filters">
+                        <span class="filter-tag active" data-filter="all">全部</span>
+                        <span class="filter-tag" data-filter="drink">飲料</span>
+                        <span class="filter-tag" data-filter="bento">便當</span>
                     </div>
-                    <div class="count_money_all" title="總價錢">
-                        <div class="icon-container">
-                            <img height="40px" src="./images/dollars.png" width="40px"/>
-                        </div>
-                        <div class="moneyGO"></div>
-                    </div>
+                </div>
+                <div id="orders-list" class="orders-grid">
+                    <!-- 訂單卡片會加在這裡 -->
                 </div>
             </div>
         </div>
+    </div>
 
-        <script>
-            document.querySelectorAll(".custom-select").forEach(select => {
-                const trigger = select.querySelector(".custom-select-trigger");
-                const options = select.querySelectorAll(".custom-option");
-                const targetInput = document.getElementById(select.dataset.target);
+    <!-- 左側菜單按鈕 (懸浮 - 固定在螢幕左側) -->
+    <div id="menu-side-trigger" class="side-trigger left-trigger">
+        <span class="trigger-icon">📷</span>
+        <span class="trigger-text">菜單</span>
+    </div>
 
-                trigger.addEventListener("click", () => {
-                    select.classList.toggle("open");
-                });
+    <!-- 左側設定按鈕 (懸浮 - 固定在螢幕左下側) -->
+    <div id="settings-side-trigger" class="side-trigger left-trigger settings-trigger">
+        <span class="trigger-icon">⚙️</span>
+        <span class="trigger-text">設定</span>
+    </div>
 
-                options.forEach(option => {
-                    option.addEventListener("click", () => {
-                        options.forEach(o => o.classList.remove("selected"));
-                        option.classList.add("selected");
-                        trigger.textContent = option.textContent;
-                        targetInput.value = option.dataset.value;
-                        select.classList.remove("open");
-                    });
-                });
+    <!-- 設定 Modal -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content settings-content">
+            <span class="close-modal close-settings">&times;</span>
+            <h3>⚙️ 選項設定</h3>
 
-                document.addEventListener("click", e => {
-                    if (!select.contains(e.target)) select.classList.remove("open");
-                });
-            });
-        </script>
-        <script src="new2.js"></script>
-    </body>
+            <div class="settings-tabs">
+                <button class="settings-tab active" data-type="sugar">🍬 甜度設定</button>
+                <button class="settings-tab" data-type="ice">🧊 冰塊設定</button>
+            </div>
+
+            <div class="settings-body">
+                <div class="add-item-row">
+                    <input type="text" id="new-setting-input" placeholder="新增選項...">
+                    <button id="btn-add-setting">＋ 新增</button>
+                </div>
+
+                <div class="settings-list-container">
+                    <ul id="settings-list" class="settings-list">
+                        <!-- JS will populate this -->
+                    </ul>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-reset-default">還原預設值</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 右側統計面板 (預設隱藏，點擊展開) -->
+    <div id="stats-panel">
+        <div class="panel-trigger">
+            <span class="trigger-icon">📊</span>
+            <span class="trigger-text">統計</span>
+        </div>
+        <div class="panel-content">
+            <h3>訂單統計</h3>
+
+            <div class="stats-group">
+                <h4>🧋 飲料統計</h4>
+                <div id="stats-drink-list" class="stats-list"></div>
+            </div>
+
+            <div class="stats-group">
+                <h4>🍱 便當統計</h4>
+                <div id="stats-bento-list" class="stats-list"></div>
+            </div>
+
+            <div class="total-summary">
+                <div class="summary-item">
+                    <span>總杯/份數</span>
+                    <span id="total-count">0</span>
+                </div>
+                <div class="summary-item">
+                    <span>總金額</span>
+                    <span id="total-money">$0</span>
+                </div>
+            </div>
+
+            <button id="btn-copy-stats">複製統計結果</button>
+        </div>
+    </div>
+
+    <script src="new2.js"></script>
+</body>
+
 </html>

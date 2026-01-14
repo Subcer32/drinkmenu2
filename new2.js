@@ -1,239 +1,700 @@
 var firebase;
 
-$(function(){
-
-        $(".masterMenu a").click(function(){
-                var _this = $(this);
-
-                var href_val = _this.attr('href');
-                if(href_val[0] === "#"){ //判斷 a 連結網址部分 是不是 id  或是 網址
-                        $('.int_box').removeClass('int_box_open')
-                        $(href_val).addClass('int_box_open');
-                }
-                if(_this.attr('data-id')){
-                        $('html').css('height','auto');
-                }
-                else{
-                        $('html').css('height','100%');
-                }
-        });
-
-        var $showtext = $('#showtext');
-        var $count_money_all =  $('#showtext_all_count .count_money_all .moneyGO');
-        var $count_items = $('#showtext_all_count .count_items .itemsGO');
-        var $count_all_items = $('#showtext_all_count .count_all_items');
-        $announcement = $('#announcement'),
-        time = new Date(), //抓取現在時間
-        $select = $('select'),
-        clearAllLock = true,
-        postName = {
-                name: ""
-        },
-        postLight = { //工作資料
-                light: ""
-        }
-        reMark = { //備註資料
-                remark: ""
-        },
-        // timeout,
-        // month = "月",
-        // nowYear = time.getFullYear(),
-        // nowMonth = time.getMonth()+1,
-        // nowDay = time.getDate(),
-        // nowHour = time.getHours(),
-        // nowMinutes = time.getMinutes(),
-        // nowSeconds = time.getSeconds(),
-        // timeAll = "",
-        // day = "日",
-        // dateAll = "",
-        cool = {
-                lock: false
-        }
-        // changeWorkLock = true,
-        // changeWorkLockTime= 0,
-        // allSeconds = 0  //接收現在時間到23:59:59的間隔時間戳函式輸出的值
-        // console.log(changeWorkLock);
-        // allCountDay = new Date(nowYear,nowMonth,0).getDate();
-
-        // dateAll = nowMonth+month+nowDay+day;
-        // timeAll = nowHour+':'+nowMinutes+':'+nowSeconds;
-
-        
-        //設定驗收單確認時間部分
-        // var ccc =  setInterval(function(){
-        //         var cooltime = new Date();
-        //         var HH = cooltime.getHours();
-        //         var MM = cooltime.getMinutes();
-        //         var SS = cooltime.getSeconds();
-        //         var allclock = HH+':'+MM+':'+SS;
-
-        //         if(HH >= 17 && MM >= 0 && SS >= 1){
-        //                 clearTimeout(ccc);
-        //         }
-        //         else{
-        //                 timeCheck(allclock);
-        //         }
-
-        // },1000);
-
-        // function allSecond(){ //抓取現在時間到23:59:59的間隔時間戳
-        //         var nowTime = time.getTime();//現在時間的時間戳
-        //         time = new Date(""+nowYear+"-"+nowMonth+"-"+(nowDay+1)+" 00:00:00") // 指定明天00:00前的時間戳
-        //         var unixTime2022 = 1640966400;//  2022/1/1 的時間戳
-        //         var unixTomorrowTime = time.getTime();// 明天00:00的時間戳
-        //         var leap_year = parseInt(((nowYear-1970)-2)/4); //1970到今年有閏年多了幾天
-        //         var toDay_23_59_59 = (((nowYear-1970)*365)+leap_year)*24*60*60+(unixTomorrowTime-unixTime2022)+57000;
-        //         var nowTime_To_23_59_59 = toDay_23_59_59 - nowTime;
-        //         console.log(unixTomorrowTime);
-        //         return nowTime_To_23_59_59;
-        // }
-        // allSeconds = allSecond();
-
-        var name = '';
-        var items = '';
-        var sugar = '';
-        var ice = '';
-        var feed = '';
-        var money = 0;
-        var remark = '';
-        var config = {
-                databaseURL: "https://drink-cool-default-rtdb.firebaseio.com/"
-        };
+$(function () {
+    // Firebase Configuration
+    var config = {
+        databaseURL: "https://drink-cool-default-rtdb.firebaseio.com/"
+    };
+    if (!firebase.apps.length) {
         firebase.initializeApp(config);
-        var database = firebase.database();
-        var databaseItems = firebase.database().ref('/items');
+    }
+    var databaseItems = firebase.database().ref('/items');
 
-        //載入資料庫時顯示所有內容，並當資料庫有變動立即刷新
-        databaseItems.on('value', function(snapshot) {
-                // $showtext.html('<div class="morning_shift"><div id="api" class="work_box"><div class="buttonAreaApi"><div class="clearAllApi"><img src="images/trash.png" width="36px" height="36px" alt="" srcset=""></div></div><div class="mark">i<p class="allRemark">1. OPE<br>2. fastpb<br>3. acecric<br>4. 鬥牛直播<br>5. YOLO<br>6. Egame<br>7. BoTV <br>8. 印度彩票<br>9. RG棋牌<br>10. Grafana(HBO模板、SSC、HJ 、Mabu、YD)</p></div><h1>代理/包網&遊戲</h1></div><div id="all_work" class="work_box"><div class="buttonAreaAll"><div class="clearAllAll"><img src="images/trash.png" width="36px" height="36px" alt="" srcset=""></div></div><div class="mark">i<p class="allRemark">1. 全部產品<br>2. 平日中班 18:00後<br>3. 非平日早中班</p></div><h1>ALL</h1></div><div id="ope" class="work_box"><div class="buttonAreaOpe"><div class="clearAllOpe"><img src="images/trash.png" width="36px" height="36px" alt="" srcset=""></div></div><div class="mark">i<p class="allRemark">1. Fastapi<br>2. GSC<br>3. 舊API<br>4. Grafana(CY)</p></div><h1>API</h1></div></div>');
-                $showtext.html('');
-                // console.log(snapshot.val());
-                for(var i in snapshot.val()){
-                        $showtext.prepend('<div id="'+i+'" class="items_box_box"><div class="style_name">'+snapshot.val()[i].name+'</div><div class="style_items">'+snapshot.val()[i].items+'</div><div class="style_sugar">'+snapshot.val()[i].sugar+'</div><div class="style_ice">'+snapshot.val()[i].ice+'</div><div class="style_feed">'+snapshot.val()[i].feed+'</div><div class="style_money">'+snapshot.val()[i].money+'</div><div class="style_remark">'+snapshot.val()[i].remark+'</div><div id="'+i+'" class="delete_item" title="刪除"></div></div>');
+    const App = {
+        init: function () {
+            this.bindEvents();
+            this.initCustomSelect();
+            this.initMenuImage(); // New init
+            this.listenToData();
+        },
+
+        bindEvents: function () {
+            // Tab Switching
+            $('.tab-btn').click(function () {
+                const tab = $(this).data('tab');
+
+                // Update Buttons
+                $('.tab-btn').removeClass('active');
+                $(this).addClass('active');
+
+                // Update Content
+                $('.tab-content').removeClass('active');
+                $('#tab-' + tab).addClass('active');
+            });
+
+            // List Filters
+            $('.filter-tag').click(function () {
+                const filter = $(this).data('filter');
+                $('.filter-tag').removeClass('active');
+                $(this).addClass('active');
+
+                if (filter === 'all') {
+                    $('.order-card').show();
+                } else {
+                    $('.order-card').hide();
+                    $('.order-card[data-type="' + filter + '"]').show();
+                }
+            });
+
+            // Stats Panel Trigger
+            $('.panel-trigger').click(function () {
+                $('#stats-panel').toggleClass('open');
+            });
+
+            // Submit Drink Order
+            $('.btn-submit').click(function () {
+                App.submitOrder();
+            });
+
+            // Delete All
+            $('.btn-delete-all').click(function () {
+                swal({
+                    title: "確定要清空嗎？",
+                    text: "這會刪除所有訂單，無法復原喔！",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            databaseItems.remove();
+                            swal("訂單已全部清空！", { icon: "success" });
+                        }
+                    });
+            });
+
+            // Delete Single Item (Delegation)
+            $(document).on('click', '.btn-delete-item', function (e) {
+                e.stopPropagation();
+                const id = $(this).closest('.order-card').attr('id');
+                swal({
+                    title: "刪除此訂單？",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            databaseItems.child(id).remove();
+                        }
+                    });
+            });
+
+            // Copy Stats
+            $('#btn-copy-stats').click(function () {
+                App.copyStats();
+            });
+
+            // Menu Modal
+            $('#menu-side-trigger').click(function () {
+                $('#menu-modal').fadeIn(200);
+            });
+
+            $('.close-modal').click(function () {
+                $('#menu-modal').fadeOut(200);
+            });
+
+            $(window).click(function (event) {
+                if ($(event.target).is('#menu-modal')) {
+                    $('#menu-modal').fadeOut(200);
+                }
+            });
+        },
+
+        initMenuImage: function () {
+            const databaseMenu = firebase.database().ref('/menuImage');
+
+            // Zoom & Pan Variables
+            let scale = 1;
+            let panning = false;
+            let pointX = 0;
+            let pointY = 0;
+            let startX = 0;
+            let startY = 0;
+            const $img = $('#menu-image');
+            const $container = $('#menu-upload-area');
+
+            function updateTransform() {
+                $img.css('transform', `translate(${pointX}px, ${pointY}px) scale(${scale})`);
+            }
+
+            // 1. Listen for remote image updates
+            databaseMenu.on('value', function (snapshot) {
+                const imageUrl = snapshot.val();
+                if (imageUrl) {
+                    $('#menu-image').attr('src', imageUrl).show();
+                    $('#upload-placeholder').hide();
+                    $('#zoom-controls').fadeIn();
+
+                    // Reset
+                    scale = 1;
+                    pointX = 0;
+                    pointY = 0;
+                    updateTransform();
+                    // Restore responsive fitting
+                    $img.css({
+                        'max-width': '100%',
+                        'max-height': '100%',
+                        'width': 'auto',
+                        'height': 'auto'
+                    });
+                } else {
+                    $('#menu-image').hide();
+                    $('#upload-placeholder').show();
+                    $('#zoom-controls').hide();
+                }
+            });
+
+            // 2. Zoom Controls
+            $('#btn-zoom-in').click((e) => { e.preventDefault(); scale += 0.2; updateTransform(); });
+            $('#btn-zoom-out').click((e) => { e.preventDefault(); scale = Math.max(0.2, scale - 0.2); updateTransform(); });
+            $('#btn-zoom-reset').click((e) => {
+                e.preventDefault();
+                scale = 1;
+                pointX = 0;
+                pointY = 0;
+                updateTransform();
+                // Restore responsive fitting
+                $img.css({ 'max-width': '100%', 'max-height': '100%' });
+            });
+
+            // 3. Mouse Wheel Zoom
+            $container.on('wheel', function (e) {
+                if (!$img.is(':visible')) return;
+                e.preventDefault();
+
+                const delta = e.originalEvent.deltaY;
+                const zoomFactor = 0.1;
+
+                if (delta < 0) {
+                    scale += zoomFactor;
+                } else {
+                    scale = Math.max(0.2, scale - zoomFactor);
                 }
 
-                $('.delete_item').click(function(){
-                        var _this = $(this);
-                        
-                        var catch_id = _this.attr('id');
-                        
-                        // console.log(catch_id);
-                        if(confirm('請問確定要刪除品項嗎?')){
-                                databaseItems.child(''+catch_id+'').remove();
-                        }
+                // Allow expanding beyond container
+                if (scale > 1) {
+                    $img.css({ 'max-width': 'none', 'max-height': 'none' });
+                }
 
+                updateTransform();
+            });
+
+            // 4. Drag to Pan
+            $container.on('mousedown', function (e) {
+                if (!$img.is(':visible')) return;
+                e.preventDefault();
+                startPanning(e.clientX, e.clientY);
+            });
+
+            $container.on('mousemove', function (e) {
+                if (!panning) return;
+                e.preventDefault();
+                pan(e.clientX, e.clientY);
+            });
+
+            $(document).on('mouseup', function () {
+                panning = false;
+            });
+
+            // Touch events for mobile
+            $container.on('touchstart', function (e) {
+                if (!$img.is(':visible')) return;
+                const touch = e.originalEvent.touches[0];
+                startPanning(touch.clientX, touch.clientY);
+            });
+
+            $container.on('touchmove', function (e) {
+                if (!panning) return;
+                e.preventDefault();
+                const touch = e.originalEvent.touches[0];
+                pan(touch.clientX, touch.clientY);
+            });
+
+            function startPanning(x, y) {
+                panning = true;
+                startX = x - pointX;
+                startY = y - pointY;
+                $img.css({ 'max-width': 'none', 'max-height': 'none' });
+            }
+
+            function pan(x, y) {
+                pointX = x - startX;
+                pointY = y - startY;
+                updateTransform();
+            }
+
+            // 5. Handle Paste Event (Ctrl+V)
+            window.addEventListener('paste', function (e) {
+                // Only handle paste if modal is open
+                if ($('#menu-modal').is(':visible')) {
+                    const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+                    for (let index in items) {
+                        const item = items[index];
+                        if (item.kind === 'file' && item.type.includes('image')) {
+                            const blob = item.getAsFile();
+                            App.processAndUploadImage(blob);
+                        }
+                    }
+                }
+            });
+
+            // 6. Handle File Selection
+            $('#btn-select-file').click(function () {
+                $('#menu-file-input').click();
+            });
+
+            $('#menu-file-input').change(function (e) {
+                const file = e.target.files[0];
+                if (file) {
+                    App.processAndUploadImage(file);
+                }
+            });
+
+            // 7. Initialize Settings
+            this.initSettings();
+        },
+
+        initSettings: function () {
+            const dbRef = firebase.database().ref('/settings');
+            let currentTab = 'sugar'; // 'sugar' or 'ice'
+
+            // Default Values
+            const defaultSugar = ["固定", "正常", "少糖 (7分)", "半糖 (5分)", "微糖 (3分)", "一分 (1分)", "無糖"];
+            const defaultIce = ["正常", "少冰", "微冰", "去冰", "完全去冰", "溫的", "熱的"];
+
+            // 1. Listen for Settings Data & Update UI + Dropdowns
+            dbRef.on('value', function (snapshot) {
+                let sData = snapshot.val();
+
+                // Initialize defaults if empty
+                if (!sData) {
+                    sData = { sugar: defaultSugar, ice: defaultIce };
+                    dbRef.set(sData);
+                }
+
+                if (!sData.sugar) dbRef.child('sugar').set(defaultSugar);
+                if (!sData.ice) dbRef.child('ice').set(defaultIce);
+
+                // Update Dropdowns
+                App.updateDropdown('sugar', sData.sugar || defaultSugar);
+                App.updateDropdown('ice', sData.ice || defaultIce);
+
+                // Update Settings List if Open
+                App.renderSettingsList(currentTab, sData[currentTab] || []);
+            });
+
+            // 2. Settings Modal Events
+            $('#settings-side-trigger').click(() => $('#settings-modal').fadeIn(200));
+            $('.close-settings').click(() => $('#settings-modal').fadeOut(200));
+
+            // 3. Tab Switching
+            $('.settings-tab').click(function () {
+                $('.settings-tab').removeClass('active');
+                $(this).addClass('active');
+                currentTab = $(this).data('type');
+
+                // Refresh List
+                dbRef.once('value').then(snap => {
+                    const data = snap.val() || {};
+                    App.renderSettingsList(currentTab, data[currentTab] || []);
                 });
-                $('.items_box_box').click(function(){
-                        var _this = $(this);
-                        var catch_id = _this.attr('id');
-                        
-                        if(_this.hasClass('change_color')){
-                                _this.removeClass('change_color');
-                                _this.removeClass('check_active');
-                        }
-                        else{
-                                _this.addClass('change_color');
-                                _this.addClass('check_active');
-                        }
-                        console.log(catch_id);
+            });
+
+            // 4. Add New Setting
+            $('#btn-add-setting').click(function () {
+                const val = $('#new-setting-input').val().trim();
+                if (!val) return;
+
+                dbRef.child(currentTab).once('value', snapshot => {
+                    const list = snapshot.val() || [];
+                    list.push(val);
+                    dbRef.child(currentTab).set(list);
+                    $('#new-setting-input').val('');
                 });
+            });
 
-                $('.delete_all').click(function(){
-                        if(confirm('請問確定要全部刪除嗎?')){
-                                database.ref('/items/').remove();
-                                window.location.reload();
-                        }
+            // 5. Delete Setting (Delegated)
+            $(document).on('click', '.btn-delete-setting', function () {
+                const index = $(this).data('index');
+                swal({
+                    title: "刪除此選項？",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true
+                }).then(willDelete => {
+                    if (willDelete) {
+                        dbRef.child(currentTab).once('value', snapshot => {
+                            const list = snapshot.val() || [];
+                            if (index > -1 && index < list.length) {
+                                list.splice(index, 1);
+                                dbRef.child(currentTab).set(list);
+                            }
+                        });
+                    }
                 });
-        });
+            });
 
-        databaseItems.on('value', function(snapshot) {
-                // $showtext.html('<div class="morning_shift"><div id="api" class="work_box"><div class="buttonAreaApi"><div class="clearAllApi"><img src="images/trash.png" width="36px" height="36px" alt="" srcset=""></div></div><div class="mark">i<p class="allRemark">1. OPE<br>2. fastpb<br>3. acecric<br>4. 鬥牛直播<br>5. YOLO<br>6. Egame<br>7. BoTV <br>8. 印度彩票<br>9. RG棋牌<br>10. Grafana(HBO模板、SSC、HJ 、Mabu、YD)</p></div><h1>代理/包網&遊戲</h1></div><div id="all_work" class="work_box"><div class="buttonAreaAll"><div class="clearAllAll"><img src="images/trash.png" width="36px" height="36px" alt="" srcset=""></div></div><div class="mark">i<p class="allRemark">1. 全部產品<br>2. 平日中班 18:00後<br>3. 非平日早中班</p></div><h1>ALL</h1></div><div id="ope" class="work_box"><div class="buttonAreaOpe"><div class="clearAllOpe"><img src="images/trash.png" width="36px" height="36px" alt="" srcset=""></div></div><div class="mark">i<p class="allRemark">1. Fastapi<br>2. GSC<br>3. 舊API<br>4. Grafana(CY)</p></div><h1>API</h1></div></div>');
-                $count_money_all.html('');
-                $count_all_items.html('');
-                var area_count=[];
-                var count_i = 0;
-                var total_money =0;
+            // 6. Edit Setting (Delegated)
+            $(document).on('click', '.btn-edit-setting', function () {
+                const index = $(this).data('index');
+                const oldVal = $(this).data('val');
 
-                var area_items = [];
-                var total_items = [];
-                // console.log(snapshot.val());
-                for(var i in snapshot.val()){
-                        area_count[count_i] = snapshot.val()[i].money;
-                        area_items[count_i] = snapshot.val()[i].items+' , '+snapshot.val()[i].sugar+' , '+snapshot.val()[i].ice+' , '+snapshot.val()[i].feed+' ,$'+snapshot.val()[i].money;
-                        count_i++;
+                swal({
+                    content: {
+                        element: "input",
+                        attributes: {
+                            placeholder: "修改為...",
+                            type: "text",
+                            value: oldVal
+                        },
+                    },
+                    buttons: true
+                }).then(newVal => {
+                    if (newVal && newVal !== oldVal) {
+                        dbRef.child(currentTab).once('value', snapshot => {
+                            const list = snapshot.val() || [];
+                            if (index > -1 && index < list.length) {
+                                list[index] = newVal;
+                                dbRef.child(currentTab).set(list);
+                            }
+                        });
+                    }
+                });
+            });
+
+            // 7. Reset Defaults
+            $('.btn-reset-default').click(() => {
+                swal({
+                    title: "還原所有預設值？",
+                    text: "這會覆蓋目前的甜度與冰塊設定",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true
+                }).then(willReset => {
+                    if (willReset) {
+                        dbRef.set({ sugar: defaultSugar, ice: defaultIce });
+                        swal("已還原預設值", { icon: "success" });
+                    }
+                });
+            });
+        },
+
+        updateDropdown: function (type, list) {
+            const $container = $(`.custom-select[data-target="${type}"] .custom-options`);
+            let html = '';
+            list.forEach(item => {
+                html += `<div class="custom-option" data-value="${item}">${item}</div>`;
+            });
+            $container.html(html);
+        },
+
+        renderSettingsList: function (type, list) {
+            const $ul = $('#settings-list');
+            $ul.empty();
+            if (!list || list.length === 0) {
+                $ul.html('<li style="text-align:center;color:#666;padding:20px">暫無選項</li>');
+                return;
+            }
+
+            list.forEach((item, index) => {
+                const li = `
+                    <li class="settings-item">
+                        <span class="item-text">${item}</span>
+                        <div class="item-actions">
+                            <button class="btn-edit-setting" data-index="${index}" data-val="${item}">✎</button>
+                            <button class="btn-delete-setting" data-index="${index}">🗑</button>
+                        </div>
+                    </li>
+                `;
+                $ul.append(li);
+            });
+        },
+
+        processAndUploadImage: function (file) {
+            swal("處理中...", "正在壓縮並上傳圖片", "info", { buttons: false, closeOnClickOutside: false });
+
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function (event) {
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = function () {
+                    // Compression Logic
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+                    const maxWidth = 1024; // Limit width
+
+                    if (width > maxWidth) {
+                        height = Math.round(height * (maxWidth / width));
+                        width = maxWidth;
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    // Compress to JPEG 0.7 quality
+                    const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+
+                    // Upload to Firebase
+                    firebase.database().ref('/menuImage').set(compressedDataUrl)
+                        .then(() => {
+                            swal("上傳成功！", "大家都可以看到這張菜單囉", "success");
+                        })
+                        .catch(err => {
+                            swal("上傳失敗", "請稍微再試一次 : " + err.message, "error");
+                        });
                 }
-                console.log(area_items);
-                for(var i=0; i < count_i ;i++){
-                        total_money = parseInt(total_money) + parseInt(area_count[i]);
-                }
-                total_items = area_items.reduce((obj,item)=>{
-                        if (item in obj) {
-                                obj[item]++
+            }
+        },
+
+        // Modified: initCustomSelect now only handles UI interactions, 
+        // options are populated by updateDropdown via Firebase
+        initCustomSelect: function () {
+            $(document).on('click', '.custom-select-trigger', function (e) {
+                e.stopPropagation();
+                const $select = $(this).closest('.custom-select');
+                $('.custom-select').not($select).removeClass('open');
+                $select.toggleClass('open');
+            });
+
+            // Delegate event for dynamically added options
+            $(document).on('click', '.custom-option', function () {
+                const $option = $(this);
+                const $select = $option.closest('.custom-select');
+                const $trigger = $select.find('.custom-select-trigger');
+                const $input = $('#' + $select.data('target'));
+
+                $select.find('.custom-option').removeClass('selected');
+                $option.addClass('selected');
+
+                $trigger.text($option.text());
+                $input.val($option.data('value'));
+
+                $select.removeClass('open');
+            });
+
+            $(document).click(function () {
+                $('.custom-select').removeClass('open');
+            });
+        },
+
+        submitOrder: function () {
+            const activeTab = $('.tab-content.active').attr('id');
+            let data = {};
+            let isValid = true;
+
+            if (activeTab === 'tab-drink') {
+                const name = $('#name').val().trim();
+                const items = $('#items').val().trim();
+                const sugar = $('#sugar').val();
+                const ice = $('#ice').val();
+                let money = $('#money').val().trim();
+
+                if (!name || !items || !money) isValid = false;
+
+                data = {
+                    type: 'drink',
+                    name: name,
+                    items: items,
+                    sugar: sugar || '固定',
+                    ice: ice || '正常',
+                    feed: $('#feed').val().trim(),
+                    money: money,
+                    remark: $('#remark').val().trim(),
+                    displayItems: items, // Simplified string for validation/display
+                    details: `${sugar} / ${ice}`
+                };
+
+            } else {
+                const name = $('#bento-name').val().trim();
+                const mainDish = $('#main-dish').val().trim();
+                const riceType = $('#rice-type').val();
+                let money = $('#bento-money').val().trim();
+
+                if (!name || !mainDish || !money) isValid = false;
+
+                const sides = $('#bento-sides').val().trim();
+
+                data = {
+                    type: 'bento',
+                    name: name,
+                    items: mainDish, // Store main dish as 'items' for consistency in stats
+                    riceType: riceType || '正常飯',
+                    feed: sides,     // Store sides in 'feed'
+                    money: money,
+                    remark: '',
+                    displayItems: mainDish,
+                    details: riceType + (sides ? ` + ${sides}` : '')
+                };
+            }
+
+            if (!isValid) {
+                swal("請填寫完整資料！", "姓名、品項和價格是必填的喔", "error");
+                return;
+            }
+
+            swal({
+                title: "確認送出？",
+                text: `${data.name} 點了 ${data.displayItems} ($${data.money})`,
+                icon: "info",
+                buttons: true,
+            })
+                .then((willSubmit) => {
+                    if (willSubmit) {
+                        databaseItems.push(data);
+                        swal("訂單已送出！", { icon: "success", timer: 1500 });
+                        // Clear forms
+                        $('input[type="text"], input[type="number"]').val('');
+                    }
+                });
+        },
+
+        listenToData: function () {
+            const $list = $('#orders-list');
+
+            databaseItems.on('value', function (snapshot) {
+                $list.empty();
+                const orders = snapshot.val();
+                let totalDrinkCount = 0;
+                let totalBentoCount = 0;
+                let totalMoney = 0;
+
+                // Grouping for stats
+                const drinkGroups = {};
+                const bentoGroups = {};
+
+                if (orders) {
+                    Object.keys(orders).forEach(key => {
+                        const order = orders[key];
+                        // Handle legacy data or new data missing type
+                        const type = order.type || 'drink';
+
+                        // Render Card
+                        App.renderCard(key, order, type);
+
+                        // Calculate Stats
+                        totalMoney += parseInt(order.money) || 0;
+
+                        if (type === 'drink') {
+                            totalDrinkCount++;
+                            const keyName = `${order.items}`;
+                            if (!drinkGroups[keyName]) drinkGroups[keyName] = { count: 0, items: [] };
+                            drinkGroups[keyName].count++;
+                            drinkGroups[keyName].items.push(`${order.sugar}/${order.ice}` + (order.feed ? `+${order.feed}` : ''));
+                        } else {
+                            totalBentoCount++;
+                            const keyName = `${order.items}`; // Main dish
+                            if (!bentoGroups[keyName]) bentoGroups[keyName] = { count: 0, items: [] };
+                            bentoGroups[keyName].count++;
+                            bentoGroups[keyName].items.push(order.details);
                         }
-                        else {
-                                obj[item] = 1
-                        }
-                        return obj
-                },{});
-                
-                // for (const [key, val] of Object.entries(total_items)) {
-                //         $count_all_items.prepend('<div class="goods"><div class="item_name">'+key+'</div><div class="item_count">'+val+'</div></div>');
-                // }
-                
-                for (const [key, val] of Object.entries(total_items)) {
-                        $count_all_items.prepend(`
-                          <div class="count_item_card">
-                            <span class="name">${key}</span>
-                            <span class="price"></span>
-                            <span class="qty">x${val}</span>
-                          </div>
-                        `);
+                    });
                 }
 
-                console.log(total_items);
-                $count_items.html(count_i);
-                $count_money_all.html(total_money);
-        });
+                App.updateStats(totalDrinkCount, totalBentoCount, totalMoney, drinkGroups, bentoGroups);
 
-        $('.write_box_add').click(function(){
-                var result = confirm('你確定要送出嗎?')
-                if(result){
-                        name = $('#name').val();
-                        items = $('#items').val();
-                        sugar = $('#sugar').val();
-                        ice = $('#ice').val();
-                        feed = $('#feed').val();
-                        money = $('#money').val();
-                        remark = $('#remark').val();
-                
-                        console.log(name + '|' + items + '|' + sugar + '|' + ice + '|' + feed + '|' + money + '|' + remark);
-                        var postData = {
-                                name: name,
-                                items: items,
-                                sugar: sugar,
-                                ice: ice,
-                                feed: feed,
-                                money: money,
-                                remark: remark
-                        };
-                        databaseItems.push(postData); //寫入資料
-                }
-                else{
+                // Re-apply current filter
+                $('.filter-tag.active').click();
+            });
+        },
 
-                }
-                
-        });
+        renderCard: function (key, order, type) {
+            const details = type === 'drink'
+                ? `${order.sugar || ''} ${order.ice || ''} ${order.feed ? '+' + order.feed : ''}`
+                : order.details;
 
+            const typeLabel = type === 'drink' ? '飲料' : '便當';
+            const icon = type === 'drink' ? '🧋' : '🍱';
 
-});
+            const html = `
+                <div class="order-card" id="${key}" data-type="${type}">
+                    <div class="order-header">
+                        <span class="order-name">${order.name}</span>
+                        <span class="order-tag">${typeLabel}</span>
+                    </div>
+                    <div class="order-item">${icon} ${order.items}</div>
+                    <div class="order-details">${details}</div>
+                    ${order.remark ? `<div class="order-details" style="color:#d4af37">備註: ${order.remark}</div>` : ''}
+                    <div class="order-footer">
+                        <span class="order-price">$${order.money}</span>
+                        <button class="btn-delete-item" title="刪除"><i class="fas fa-trash"></i> 🗑</button>
+                    </div>
+                </div>
+            `;
+            $('#orders-list').prepend(html);
+        },
 
+        updateStats: function (dCount, bCount, money, dGroups, bGroups) {
+            $('#total-count').text(`${dCount + bCount} (飲${dCount}/便${bCount})`);
+            $('#total-money').text(`$${money}`);
 
-$('#showtext_all_count').click(function(){
-        var _this = $(this)
-        if(_this.hasClass('slide_all_count')){
-                _this.removeClass('slide_all_count');
+            // Render Drink Stats
+            let dHtml = '';
+            for (let [name, data] of Object.entries(dGroups)) {
+                dHtml += `
+                    <div class="stat-item-row">
+                        <span class="stat-name">${name}</span>
+                        <span class="stat-count">${data.count}</span>
+                    </div>
+                `;
+            }
+            $('#stats-drink-list').html(dHtml || '<div style="color:#555;text-align:center">暫無資料</div>');
+
+            // Render Bento Stats
+            let bHtml = '';
+            for (let [name, data] of Object.entries(bGroups)) {
+                bHtml += `
+                    <div class="stat-item-row">
+                        <span class="stat-name">${name}</span>
+                        <span class="stat-count">${data.count}</span>
+                    </div>
+                `;
+            }
+            $('#stats-bento-list').html(bHtml || '<div style="color:#555;text-align:center">暫無資料</div>');
+        },
+
+        copyStats: function () {
+            let text = `【團購統計】\n`;
+            text += `總金額: ${$('#total-money').text()}\n`;
+            text += `總份數: ${$('#total-count').text()}\n\n`;
+
+            text += `--- 飲料 ---\n`;
+            $('#stats-drink-list .stat-item-row').each(function () {
+                const name = $(this).find('.stat-name').text();
+                const count = $(this).find('.stat-count').text();
+                text += `${name} x${count}\n`;
+            });
+
+            text += `\n--- 便當 ---\n`;
+            $('#stats-bento-list .stat-item-row').each(function () {
+                const name = $(this).find('.stat-name').text();
+                const count = $(this).find('.stat-count').text();
+                text += `${name} x${count}\n`;
+            });
+
+            const $temp = $("<textarea>");
+            $("body").append($temp);
+            $temp.val(text).select();
+            document.execCommand("copy");
+            $temp.remove();
+
+            swal("已複製到剪貼簿！", { icon: "success", timer: 1000 });
         }
-        else{
-                _this.addClass('slide_all_count');
-        }
+    };
+
+    App.init();
 });
