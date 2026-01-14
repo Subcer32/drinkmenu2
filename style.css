@@ -143,11 +143,13 @@ body::before {
     flex-direction: column;
 }
 
-.tab-icon-img {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
-    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
+/* SVG Icon styles */
+.tab-icon-svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    stroke: currentColor;
+    transition: all 0.3s;
 }
 
 .form-group.full-width {
