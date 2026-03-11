@@ -129,6 +129,24 @@
             border-color: #ff4444 !important;
             box-shadow: 0 8px 15px rgba(255, 68, 68, 0.4) !important;
         }
+
+        /* Mobile Responsive for Zoom Controls */
+        @media (max-width: 768px) {
+            #zoom-controls {
+                left: 50% !important;
+                right: auto !important;
+                transform: translateX(-50%) !important;
+                bottom: 15px !important;
+                padding: 8px 12px !important;
+                gap: 8px !important;
+                width: max-content !important;
+            }
+            #zoom-controls button {
+                width: 36px !important;
+                height: 36px !important;
+                font-size: 1.1rem !important;
+            }
+        }
     </style>
 </head>
 
