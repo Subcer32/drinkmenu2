@@ -693,6 +693,14 @@ body::before {
     justify-content: center;
     /* Center when smaller */
     transition: all 0.3s ease;
+    min-height: 0; /* Critical for flex child scrolling/containment */
+}
+
+.menu-upload-area img#menu-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transform-origin: center center;
 }
 
 /* Removed custom scrollbar styles */

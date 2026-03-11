@@ -110,9 +110,10 @@ $(function () {
                 }
             });
         },
-
         initMenuImage: function () {
-            const databaseMenu = firebase.database().ref('/menuImage');
+            let currentMenuImages = [];
+            let currentImageIndex = 0;
+            const databaseMenu = firebase.database().ref('/menuImages');
 
             // Zoom & Pan Variables
             let scale = 1;
@@ -123,49 +124,105 @@ $(function () {
             let startY = 0;
             const $img = $('#menu-image');
             const $container = $('#menu-upload-area');
+            const $thumbnails = $('#menu-thumbnails');
 
             function updateTransform() {
                 $img.css('transform', `translate(${pointX}px, ${pointY}px) scale(${scale})`);
             }
+            
+            function renderMenuViewer() {
+                if (currentMenuImages.length > 0) {
+                    // Make sure index is valid
+                    if (currentImageIndex >= currentMenuImages.length) {
+                        currentImageIndex = currentMenuImages.length - 1;
+                    }
+                    if (currentImageIndex < 0) currentImageIndex = 0;
 
-            // 1. Listen for remote image updates
-            databaseMenu.on('value', function (snapshot) {
-                const imageUrl = snapshot.val();
-                if (imageUrl) {
-                    $('#menu-image').attr('src', imageUrl).show();
+                    const currentImage = currentMenuImages[currentImageIndex];
+                    $('#menu-image').attr('src', currentImage.url).show();
                     $('#upload-placeholder').hide();
                     $('#zoom-controls').fadeIn();
 
-                    // Reset
-                    scale = 1;
-                    pointX = 0;
-                    pointY = 0;
-                    updateTransform();
-                    // Restore responsive fitting
-                    $img.css({
-                        'max-width': '100%',
-                        'max-height': '100%',
-                        'width': 'auto',
-                        'height': 'auto'
+                    // Render thumbnails
+                    $thumbnails.empty();
+                    currentMenuImages.forEach((imgObj, i) => {
+                        const activeClass = i === currentImageIndex ? 'active' : '';
+                        $thumbnails.append(`
+                            <img src="${imgObj.url}" class="menu-thumbnail ${activeClass}" data-index="${i}" title="點擊切換">
+                        `);
                     });
+
+                    // Thumbnail click event (Event Delegation on container to prevent duplicate bindings)
+                    $thumbnails.off('click', '.menu-thumbnail').on('click', '.menu-thumbnail', function() {
+                        currentImageIndex = parseInt($(this).data('index'));
+                        resetView();
+                        renderMenuViewer();
+                    });
+
+                    // Reset
+                    resetView();
                 } else {
                     $('#menu-image').hide();
                     $('#upload-placeholder').show();
                     $('#zoom-controls').hide();
+                    $thumbnails.empty();
                 }
-            });
+            }
 
-            // 2. Zoom Controls
-            $('#btn-zoom-in').click((e) => { e.preventDefault(); scale += 0.2; updateTransform(); });
-            $('#btn-zoom-out').click((e) => { e.preventDefault(); scale = Math.max(0.2, scale - 0.2); updateTransform(); });
-            $('#btn-zoom-reset').click((e) => {
-                e.preventDefault();
+            function resetView() {
                 scale = 1;
                 pointX = 0;
                 pointY = 0;
                 updateTransform();
-                // Restore responsive fitting
-                $img.css({ 'max-width': '100%', 'max-height': '100%' });
+                $img.css({
+                    'max-width': '100%',
+                    'max-height': '100%',
+                    'width': 'auto',
+                    'height': 'auto'
+                });
+            }
+
+            // 1. Listen for remote image updates
+            databaseMenu.on('value', function (snapshot) {
+                const data = snapshot.val();
+                currentMenuImages = [];
+                if (data) {
+                    // Convert Firebase object to array format
+                    Object.keys(data).forEach(key => {
+                        currentMenuImages.push({
+                            id: key,
+                            url: data[key].url || data[key] // Handle legacy structure if any
+                        });
+                    });
+                }
+                renderMenuViewer();
+            });
+
+            // 2. Zoom & Delete Controls
+            $('#btn-zoom-in').click((e) => { e.preventDefault(); scale += 0.2; updateTransform(); });
+            $('#btn-zoom-out').click((e) => { e.preventDefault(); scale = Math.max(0.2, scale - 0.2); updateTransform(); });
+            $('#btn-zoom-reset').click((e) => {
+                e.preventDefault();
+                resetView();
+            });
+            $('#btn-delete-menu').click((e) => {
+                e.preventDefault();
+                if (currentMenuImages.length > 0) {
+                    swal({
+                        title: "確定刪除這張菜單？",
+                        text: "刪除後無法復原喔！",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((willDelete) => {
+                        if (willDelete) {
+                            const imageToDelete = currentMenuImages[currentImageIndex];
+                            firebase.database().ref('/menuImages/' + imageToDelete.id).remove().then(() => {
+                                swal("已刪除", "這張菜單已經被移除了", "success");
+                            });
+                        }
+                    });
+                }
             });
 
             // 3. Mouse Wheel Zoom
@@ -422,11 +479,25 @@ $(function () {
         },
 
         processAndUploadImage: function (file) {
-            swal("處理中...", "正在壓縮並上傳圖片", "info", { buttons: false, closeOnClickOutside: false });
+            const isGif = file.type === 'image/gif';
+            swal("處理中...", isGif ? "正在上傳 GIF (不壓縮以保留動畫)..." : "正在壓縮並上傳圖片", "info", { buttons: false, closeOnClickOutside: false });
 
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = function (event) {
+                // If it's a GIF, upload directly to preserve animation
+                if (isGif) {
+                    const rawDataUrl = event.target.result;
+                    firebase.database().ref('/menuImages').push({ url: rawDataUrl })
+                        .then(() => {
+                            swal("上傳成功！", "動圖菜單已新增 ✨", "success");
+                        })
+                        .catch(err => {
+                            swal("上傳失敗", "圖片可能太大了，請縮小後再試 : " + err.message, "error");
+                        });
+                    return;
+                }
+
                 const img = new Image();
                 img.src = event.target.result;
                 img.onload = function () {
@@ -449,10 +520,10 @@ $(function () {
                     // Compress to JPEG 0.7 quality
                     const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
 
-                    // Upload to Firebase
-                    firebase.database().ref('/menuImage').set(compressedDataUrl)
+                    // Upload to Firebase using push() for multiple images
+                    firebase.database().ref('/menuImages').push({ url: compressedDataUrl })
                         .then(() => {
-                            swal("上傳成功！", "大家都可以看到這張菜單囉", "success");
+                            swal("上傳成功！", "新菜單已新增", "success");
                         })
                         .catch(err => {
                             swal("上傳失敗", "請稍微再試一次 : " + err.message, "error");
