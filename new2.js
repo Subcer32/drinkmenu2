@@ -12,10 +12,35 @@ $(function () {
 
     const App = {
         init: function () {
+            this.initTheme();
             this.bindEvents();
             this.initCustomSelect();
             this.initMenuImage(); // New init
             this.listenToData();
+        },
+
+        initTheme: function () {
+            const savedTheme = localStorage.getItem('app-theme') || 'dark';
+            if (savedTheme === 'light') {
+                $('html').attr('data-theme', 'light');
+                $('.icon-dark').hide();
+                $('.icon-light').show();
+            }
+            
+            $('#theme-toggle').click(function () {
+                const isLight = $('html').attr('data-theme') === 'light';
+                if (isLight) {
+                    $('html').removeAttr('data-theme');
+                    localStorage.setItem('app-theme', 'dark');
+                    $('.icon-light').hide();
+                    $('.icon-dark').show();
+                } else {
+                    $('html').attr('data-theme', 'light');
+                    localStorage.setItem('app-theme', 'light');
+                    $('.icon-dark').hide();
+                    $('.icon-light').show();
+                }
+            });
         },
 
         bindEvents: function () {

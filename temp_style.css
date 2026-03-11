@@ -35,10 +35,10 @@
 }
 
 .modal-content {
-    background-color: #1a1a1a;
+    background-color: var(--bg-panel);
     margin: 5% auto;
     padding: 20px;
-    border: 1px solid var(--primary-gold);
+    border: 1px solid var(--border-color);
     border-radius: 16px;
     width: 90%;
     max-width: 800px;
@@ -77,8 +77,8 @@
 
 .menu-upload-area {
     flex: 1;
-    background: #0a0a0a;
-    border: 2px dashed rgba(212, 175, 55, 0.3);
+    background: var(--bg-input);
+    border: 2px dashed var(--border-color);
     border-radius: 12px;
     min-height: 400px;
     display: flex;
@@ -155,7 +155,7 @@
     object-fit: cover !important;
     opacity: 0.6;
     transition: all 0.2s;
-    background: #000;
+    background: var(--bg-input);
 }
 
 .menu-thumbnail:hover {

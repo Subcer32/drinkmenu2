@@ -79,19 +79,19 @@
             right: 25px !important;
             display: flex !important;
             gap: 12px !important;
-            background: rgba(30, 30, 30, 0.6) !important;
+            background: var(--bg-panel) !important;
             padding: 12px 16px !important;
             border-radius: 20px !important;
-            backdrop-filter: blur(10px) !important;
-            -webkit-backdrop-filter: blur(10px) !important;
-            border: 1px solid rgba(255, 255, 255, 0.15) !important;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+            backdrop-filter: var(--glass-blur) !important;
+            -webkit-backdrop-filter: var(--glass-blur) !important;
+            border: 1px solid var(--border-color) !important;
+            box-shadow: var(--shadow-card) !important;
         }
 
         #zoom-controls button {
-            background: rgba(255, 255, 255, 0.05) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            color: #f1f1f1 !important;
+            background: var(--bg-input) !important;
+            border: 1px solid var(--border-light) !important;
+            color: var(--text-main) !important;
             width: 42px !important;
             height: 42px !important;
             border-radius: 50% !important;
@@ -101,15 +101,15 @@
             align-items: center !important;
             justify-content: center !important;
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+            box-shadow: var(--shadow-btn) !important;
         }
 
         #zoom-controls button:hover {
-            background: var(--primary-gold, #D4AF37) !important;
+            background: var(--primary-gold) !important;
             color: #111 !important;
-            border-color: var(--primary-gold, #D4AF37) !important;
+            border-color: var(--primary-gold) !important;
             transform: translateY(-3px) scale(1.05) !important;
-            box-shadow: 0 8px 15px rgba(212, 175, 55, 0.3) !important;
+            box-shadow: 0 8px 15px var(--primary-glow) !important;
         }
 
         #zoom-controls button:active {
@@ -154,8 +154,18 @@
     <div class="app-container">
         <!-- 主要點餐卡片 -->
         <div class="main-card">
-            <header class="app-header">
-                <h1>🥤 團購點餐去</h1>
+            <header class="app-header" style="position: relative;">
+                <h1 style="display: flex; align-items: center; justify-content: center; gap: 15px;">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 5v14c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M4 5h16M14 2L10 10M10 2l4 8M12 10v11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    團購點餐去
+                </h1>
+                <button id="theme-toggle" class="theme-btn" title="切換主題" aria-label="Toggle Theme">
+                    <svg class="icon-dark theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    <svg class="icon-light theme-icon" style="display:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                </button>
             </header>
 
             <!-- 菜單圖片 Modal (Moved to Body end) -->
@@ -179,7 +189,12 @@
                     訂飲料
                 </button>
                 <button class="tab-btn" data-tab="bento">
-                    <span class="icon">🍱</span> 訂便當
+                    <svg class="tab-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 6h16v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"></path>
+                        <path d="M4 11h16"></path>
+                        <path d="M12 6v5"></path>
+                    </svg>
+                    訂便當
                 </button>
             </div>
 
@@ -304,7 +319,17 @@
             <!-- 訂單列表區域 -->
             <div class="orders-section">
                 <div class="section-header">
-                    <h3>📋 訂單列表</h3>
+                    <h3 style="display: flex; align-items: center; gap: 8px;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="8" y1="6" x2="21" y2="6"></line>
+                            <line x1="8" y1="12" x2="21" y2="12"></line>
+                            <line x1="8" y1="18" x2="21" y2="18"></line>
+                            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                        </svg>
+                        訂單列表
+                    </h3>
                     <div class="list-filters">
                         <span class="filter-tag active" data-filter="all">全部</span>
                         <span class="filter-tag" data-filter="drink">飲料</span>
@@ -320,13 +345,23 @@
 
     <!-- 左側菜單按鈕 (懸浮 - 固定在螢幕左側) -->
     <div id="menu-side-trigger" class="side-trigger left-trigger">
-        <span class="trigger-icon">📷</span>
+        <span class="trigger-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                <circle cx="12" cy="13" r="4"></circle>
+            </svg>
+        </span>
         <span class="trigger-text">菜單</span>
     </div>
 
     <!-- 左側設定按鈕 (懸浮 - 固定在螢幕左下側) -->
     <div id="settings-side-trigger" class="side-trigger left-trigger settings-trigger">
-        <span class="trigger-icon">⚙️</span>
+        <span class="trigger-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+        </span>
         <span class="trigger-text">設定</span>
     </div>
 
@@ -363,7 +398,13 @@
     <!-- 右側統計面板 (預設隱藏，點擊展開) -->
     <div id="stats-panel">
         <div class="panel-trigger">
-            <span class="trigger-icon">📊</span>
+            <span class="trigger-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="20" x2="18" y2="10"></line>
+                    <line x1="12" y1="20" x2="12" y2="4"></line>
+                    <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
+            </span>
             <span class="trigger-text">統計</span>
         </div>
         <div class="panel-content">
@@ -398,7 +439,13 @@
     <div id="menu-modal" class="modal">
         <div class="modal-content menu-content">
             <span class="close-modal close-menu">&times;</span>
-            <h3>📷 今日菜單</h3>
+            <h3 style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                    <circle cx="12" cy="13" r="4"></circle>
+                </svg>
+                今日菜單
+            </h3>
             
             <!-- 選單圖片縮圖/切換區 -->
             <div id="menu-thumbnails" class="menu-thumbnails">
@@ -416,10 +463,18 @@
                 </div>
 
                 <div id="zoom-controls" class="zoom-controls" style="display:none;">
-                    <button id="btn-zoom-in" title="放大">＋</button>
-                    <button id="btn-zoom-out" title="縮小">－</button>
-                    <button id="btn-zoom-reset" title="重置大小">↺</button>
-                    <button id="btn-delete-menu" title="刪除此張菜單">🗑️</button>
+                    <button id="btn-zoom-in" title="放大">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+                    </button>
+                    <button id="btn-zoom-out" title="縮小">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+                    </button>
+                    <button id="btn-zoom-reset" title="重置大小">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    </button>
+                    <button id="btn-delete-menu" title="刪除此張菜單">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                    </button>
                 </div>
             </div>
             
