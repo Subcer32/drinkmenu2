@@ -7,9 +7,16 @@
     --font-main: 'Noto Sans TC', sans-serif;
 
     /* Brand Colors */
+    /* Brand Colors */
     --primary-gold: #D4AF37;
     --primary-hover: #F2CC60;
     --primary-glow: rgba(212, 175, 55, 0.4);
+    
+    --bento-color: #ff6b6b;
+    --bento-glow: rgba(255, 107, 107, 0.2);
+
+    --accent-text-gold: var(--primary-gold);
+    --accent-text-bento: var(--bento-color);
 
     /* Dark Theme (Default Glassmorphism) */
     --bg-page: #0B0B0E;
@@ -40,6 +47,18 @@ html[data-theme="light"] {
     --bg-panel: rgba(255, 255, 255, 0.85);
     --bg-input: rgba(0, 0, 0, 0.03);
     --bg-input-hover: rgba(0, 0, 0, 0.06);
+
+    /* Adjust glow opacity for cleaner look on light background, use original vibrant brand colors */
+    --primary-gold: #D4AF37;
+    --primary-hover: #F2CC60;
+    --primary-glow: rgba(212, 175, 55, 0.15);
+    
+    --bento-color: #ff6b6b;
+    --bento-glow: rgba(255, 107, 107, 0.15);
+
+    /* Dedicated text colors to maintain crispy readability on light backgrounds */
+    --accent-text-gold: #B8860B; 
+    --accent-text-bento: #E04848;
 
     --text-main: #2A2A2E;
     --text-muted: #6B7280;
@@ -272,6 +291,82 @@ body::before {
     transform: translateY(-2px);
 }
 
+/* Custom Number Input Spinners */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+/* For Firefox and Standards-Compliant Browsers */
+input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+/* Custom Number Input Wrapper */
+.number-input-wrapper {
+    display: flex;
+    align-items: stretch; /* make buttons same height as input */
+    background: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.number-input-wrapper:focus-within {
+    border-color: var(--primary-gold);
+    background: var(--bg-input-hover);
+    box-shadow: 0 4px 15px var(--primary-glow);
+    transform: translateY(-2px);
+}
+
+.number-input-wrapper input[type="number"] {
+    flex: 1;
+    border: none;
+    background: transparent;
+    text-align: center;
+    padding: 14px 10px;
+    outline: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-main);
+    box-shadow: none !important;
+    transform: none !important;
+    -webkit-appearance: none; /* override default inner padding strictly */
+}
+
+.btn-spin {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    padding: 0 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.btn-spin:hover {
+    color: var(--primary-gold);
+    background: var(--primary-glow);
+}
+
+.btn-spin:active {
+    background: var(--primary-glow);
+}
+
+/* Create our own custom spinner buttons if needed, or simply let the user type. 
+   Given it's a price field, typing is often faster. But if we want to style the native slider: */
+   
+/* This is a trick to style the native webkit spinner if we keep it, but hiding it and 
+   letting users type is generally considered a cleaner UI pattern for price/money inputs.
+   If the user really wants up/down arrows, we would need to build custom HTML/JS buttons.
+   For now, we remove the ugly default ones to instantly make it look premium. */
+
 /* Custom Select */
 .custom-select {
     position: relative;
@@ -361,7 +456,7 @@ body::before {
 .btn-delete-all:hover {
     background: rgba(255, 100, 100, 0.1);
     border-color: rgba(255, 100, 100, 0.6);
-    color: #ff6b6b;
+    color: var(--bento-color);
 }
 
 /* Orders Section */
@@ -427,7 +522,7 @@ body::before {
 
 /* Card variants based on type */
 .order-card[data-type="bento"] {
-    border-left-color: #ff6b6b;
+    border-left-color: var(--bento-color);
 }
 
 .order-card:hover {
@@ -450,21 +545,28 @@ body::before {
 
 .order-tag {
     font-size: 0.75rem;
-    padding: 2px 6px;
-    border-radius: 4px;
+    padding: 3px 8px;
+    border-radius: 6px;
     background: var(--primary-glow);
-    color: var(--primary-gold);
+    color: var(--accent-text-gold);
+    font-weight: 700;
+    letter-spacing: 0.5px;
 }
 
 .order-card[data-type="bento"] .order-tag {
-    background: rgba(255, 106, 106, 0.2);
-    color: #ff6b6b;
+    background: var(--bento-glow);
+    color: var(--accent-text-bento);
 }
 
 .order-item {
     font-size: 1.1rem;
-    color: var(--primary-gold);
+    color: var(--accent-text-gold);
     margin-bottom: 4px;
+    font-weight: 500;
+}
+
+.order-card[data-type="bento"] .order-item {
+    color: var(--accent-text-bento);
 }
 
 .order-details {
@@ -497,7 +599,7 @@ body::before {
 }
 
 .btn-delete-item:hover {
-    color: #ff4d4d;
+    color: var(--bento-color);
 }
 
 /* Stats Panel */
@@ -783,11 +885,11 @@ body::before {
 /* Title */
 .modal-content h3 {
     text-align: center;
-    color: var(--primary-gold);
+    color: var(--accent-text-gold);
     margin-bottom: 25px;
     font-size: 1.8rem;
     letter-spacing: 2px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 2px 8px var(--primary-glow);
 }
 
 /* Upload Area Container */

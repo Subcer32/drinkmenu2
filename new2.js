@@ -561,8 +561,6 @@ $(function () {
             }
         },
 
-        // Modified: initCustomSelect now only handles UI interactions, 
-        // options are populated by updateDropdown via Firebase
         initCustomSelect: function () {
             $(document).on('click', '.custom-select-trigger', function (e) {
                 e.stopPropagation();
@@ -585,6 +583,27 @@ $(function () {
                 $input.val($option.data('value'));
 
                 $select.removeClass('open');
+            });
+
+            // Custom Number Input Spinners (+/- Buttons)
+            $(document).on('click', '.btn-spin.plus', function() {
+                const $input = $(this).siblings('input[type="number"]');
+                const step = parseInt($input.attr('step')) || 1;
+                const min = parseInt($input.attr('min')) || 0;
+                let val = parseInt($input.val()) || min;
+                $input.val(val + step);
+            });
+
+            $(document).on('click', '.btn-spin.minus', function() {
+                const $input = $(this).siblings('input[type="number"]');
+                const step = parseInt($input.attr('step')) || 1;
+                const min = parseInt($input.attr('min')) || 0;
+                let val = parseInt($input.val()) || 0;
+                if (val - step >= min) {
+                    $input.val(val - step);
+                } else {
+                    $input.val(min);
+                }
             });
 
             $(document).click(function () {
@@ -718,7 +737,9 @@ $(function () {
                 : order.details;
 
             const typeLabel = type === 'drink' ? '飲料' : '便當';
-            const icon = type === 'drink' ? '🧋' : '🍱';
+            const icon = type === 'drink' 
+                ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: text-bottom; margin-right: 4px;"><path d="M17 8H7C6.44772 8 6 8.44772 6 9V19C6 20.6569 7.34315 22 9 22H15C16.6569 22 18 20.6569 18 19V9C18 8.44772 17.5523 8 17 8Z"></path><path d="M7 8L8.5 3H15.5L17 8"></path><path d="M12 3V1"></path><circle cx="10" cy="18" r="1" fill="currentColor"></circle><circle cx="14" cy="18" r="1" fill="currentColor"></circle><circle cx="12" cy="15" r="1" fill="currentColor"></circle></svg>` 
+                : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: text-bottom; margin-right: 4px;"><path d="M4 6h16v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"></path><path d="M4 11h16"></path><path d="M12 6v5"></path></svg>`;
 
             const html = `
                 <div class="order-card" id="${key}" data-type="${type}">
@@ -726,12 +747,14 @@ $(function () {
                         <span class="order-name">${order.name}</span>
                         <span class="order-tag">${typeLabel}</span>
                     </div>
-                    <div class="order-item">${icon} ${order.items}</div>
+                    <div class="order-item">${icon}${order.items}</div>
                     <div class="order-details">${details}</div>
                     ${order.remark ? `<div class="order-details" style="color:#d4af37">備註: ${order.remark}</div>` : ''}
                     <div class="order-footer">
                         <span class="order-price">$${order.money}</span>
-                        <button class="btn-delete-item" title="刪除"><i class="fas fa-trash"></i> 🗑</button>
+                        <button class="btn-delete-item" title="刪除">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                        </button>
                     </div>
                 </div>
             `;

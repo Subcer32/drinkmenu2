@@ -254,7 +254,15 @@
                         </div>
                         <div class="form-group">
                             <label for="money">價格</label>
-                            <input id="money" name="money" placeholder="多少錢？" required type="number" />
+                            <div class="number-input-wrapper">
+                                <button type="button" class="btn-spin minus">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                </button>
+                                <input id="money" name="money" placeholder="多少錢？" required type="number" min="0" step="5" />
+                                <button type="button" class="btn-spin plus">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -297,7 +305,15 @@
                         </div>
                         <div class="form-group">
                             <label for="bento-money">價格</label>
-                            <input id="bento-money" name="money" placeholder="多少錢？" required type="number" />
+                            <div class="number-input-wrapper">
+                                <button type="button" class="btn-spin minus">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                </button>
+                                <input id="bento-money" name="money" placeholder="多少錢？" required type="number" min="0" step="5" />
+                                <button type="button" class="btn-spin plus">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -423,12 +439,29 @@
             <h3>訂單統計</h3>
 
             <div class="stats-group">
-                <h4>🧋 飲料統計</h4>
+                <h4 style="display: flex; align-items: center; gap: 6px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 8H7C6.44772 8 6 8.44772 6 9V19C6 20.6569 7.34315 22 9 22H15C16.6569 22 18 20.6569 18 19V9C18 8.44772 17.5523 8 17 8Z"></path>
+                        <path d="M7 8L8.5 3H15.5L17 8"></path>
+                        <path d="M12 3V1"></path>
+                        <circle cx="10" cy="18" r="1" fill="currentColor"></circle>
+                        <circle cx="14" cy="18" r="1" fill="currentColor"></circle>
+                        <circle cx="12" cy="15" r="1" fill="currentColor"></circle>
+                    </svg>
+                    飲料統計
+                </h4>
                 <div id="stats-drink-list" class="stats-list"></div>
             </div>
 
             <div class="stats-group">
-                <h4>🍱 便當統計</h4>
+                <h4 style="display: flex; align-items: center; gap: 6px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 6h16v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"></path>
+                        <path d="M4 11h16"></path>
+                        <path d="M12 6v5"></path>
+                    </svg>
+                    便當統計
+                </h4>
                 <div id="stats-bento-list" class="stats-list"></div>
             </div>
 
