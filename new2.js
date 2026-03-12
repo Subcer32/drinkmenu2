@@ -379,6 +379,13 @@ $(function () {
             // 2. Settings Modal Events
             $('#settings-side-trigger').click(() => $('#settings-modal').fadeIn(200));
             $('.close-settings').click(() => $('#settings-modal').fadeOut(200));
+            
+            // Close when clicking outside the modal content
+            $(window).click(function (event) {
+                if ($(event.target).is('#settings-modal')) {
+                    $('#settings-modal').fadeOut(200);
+                }
+            });
 
             // 3. Tab Switching
             $('.settings-tab').click(function () {
